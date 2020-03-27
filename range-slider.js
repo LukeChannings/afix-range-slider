@@ -45,19 +45,19 @@ const RangeInput = rangeEl => {
   rangeEl.addEventListener('pointerleave', e => {
     e.stopPropagation()
     e.preventDefault()
-    rangeEl.style.transform = ''
     lastY = null
   })
 
   rangeEl.addEventListener('pointerdown', e => {
     lastY = e.y
-    rangeEl.style.transform = 'scale(1.05)';
+    rangeEl.style.transform = 'scale(1.05)'
     e.stopPropagation()
     e.preventDefault()
   })
 
   rangeEl.addEventListener('pointerup', () => {
     lastY = null
+    rangeEl.style.transform = ''
   })
 
   rangeEl.addEventListener('pointermove', e => {
@@ -71,5 +71,6 @@ const RangeInput = rangeEl => {
   })
 }
 
-const rangeInputs = Array.from(document.querySelectorAll('.rangeSlider'));
-rangeInputs.forEach(RangeInput)
+document.addEventListener('DOMContentLoaded', () => {
+  Array.from(document.querySelectorAll('.rangeSlider')).forEach(RangeInput)
+})

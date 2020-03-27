@@ -2,6 +2,8 @@
 
 Zero-dependency recreation of the iOS vertical range slider. Uses a range input as an accessibility base. Supports scroll events and pointer events. (It also bounces a little when you touch it.)
 
+[Try it out](https://lukechannings.github.io/vertical-range-slider/)
+
 ![Brightness Slider screenshot](./screenshot.png)
 
 ## Markup
