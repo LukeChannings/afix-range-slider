@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 2560">
+  <g fill="#FFF" fill-rule="evenodd">
+    <path d="M128.5 91c20.71 0 37.5 16.79 37.5 37.5l-.005.5H91.003a38.266 38.266 0 01-.003-.5c0-20.71 16.79-37.5 37.5-37.5z"/>
+    <g transform="translate(66 321)" stroke="#FFF">
+      <rect stroke-width=".5" x="27" y="24" width="75" height="75" rx="37.5"/>
+      <g stroke-linecap="round" stroke-linejoin="round" stroke-width="2.56">
+        <path d="M63.611 9.739V0M63.611 125.66v-9.739M10.309 63.04H.571M126.23 63.04h-9.738M25.921 25.35l-6.886-6.886M107.89 107.319l-6.886-6.886M101.3 25.35l6.886-6.886M19.332 107.32l6.886-6.887"/>
+      </g>
+    </g>
+    <g transform="translate(61 571)" stroke="#FFF">
+      <rect stroke-width=".5" x="33" y="30" width="75" height="75" rx="37.5"/>
+      <g stroke-linecap="round" stroke-linejoin="round" stroke-width="2.816">
+        <path d="M69.972 10.713V0M69.972 138.226v-10.713M11.34 69.344H.628M138.853 69.344h-10.712M28.513 27.885L20.94 20.31M118.679 118.051l-7.576-7.575M111.43 27.885l7.575-7.574M21.264 118.051l7.576-7.575"/>
+      </g>
+    </g>
+    <g transform="translate(55 821)" stroke="#FFF">
+      <rect stroke-width=".55" x="36" y="33" width="83" height="83" rx="41.25"/>
+      <g stroke-linecap="round" stroke-linejoin="round" stroke-width="3.072">
+        <path d="M76.333 11.687V0M76.333 150.792v-11.686M12.371 75.648H.685M151.477 75.648H139.79M31.105 30.42l-8.264-8.263M129.467 128.783l-8.263-8.264M121.56 30.42l8.264-8.263M23.198 128.783l8.264-8.263"/>
+      </g>
+    </g>
+    <g transform="translate(49 1074)" stroke="#FFF">
+      <rect stroke-width=".55" x="42" y="39" width="83" height="83" rx="41.25"/>
+      <g stroke-linecap="round" stroke-linejoin="round" stroke-width="3.328">
+        <path d="M82.694 12.661V0M82.694 163.358v-12.66M13.402 81.952H.742M164.1 81.952h-12.66M33.697 32.956l-8.952-8.953M140.257 139.515l-8.952-8.952M131.69 32.956l8.952-8.953M25.13 139.515l8.953-8.952"/>
+      </g>
+    </g>
+    <g transform="translate(40 1320)" stroke="#FFF">
+      <rect stroke-width=".6" x="45" y="42" width="90" height="90" rx="45"/>
+      <g stroke-linecap="round" stroke-linejoin="round" stroke-width="3.584">
+        <path d="M89.055 13.634V0M89.055 175.924V162.29M14.433 88.256H.799M176.723 88.256h-13.634M36.29 35.49l-9.641-9.64M151.046 150.247l-9.642-9.641M141.82 35.49l9.641-9.64M27.063 150.247l9.642-9.642"/>
+      </g>
+    </g>
+    <g transform="translate(33 1570)" stroke="#FFF">
+      <rect stroke-width=".6" x="52" y="49" width="90" height="90" rx="45"/>
+      <g stroke-linecap="round" stroke-linejoin="round" stroke-width="3.84">
+        <path d="M95.416 14.608V0M95.416 188.49v-14.608M15.464 94.56H.856M189.346 94.56h-14.608M38.882 38.025l-10.33-10.329M161.835 160.979l-10.33-10.33M151.95 38.026l10.33-10.33M28.997 160.979l10.33-10.33"/>
+      </g>
+    </g>
+    <g transform="translate(27 1819)" stroke="#FFF">
+      <rect stroke-width=".65" x="54" y="51" width="98" height="98" rx="48.75"/>
+      <g stroke-linecap="round" stroke-linejoin="round" stroke-width="4.096">
+        <path d="M101.777 15.582V0M101.777 201.056v-15.582M16.495 100.864H.913M201.97 100.864h-15.583M41.474 40.561l-11.02-11.019M172.624 171.711l-11.02-11.019M162.08 40.56l11.019-11.018M30.93 171.71l11.019-11.018"/>
+      </g>
+    </g>
+    <g transform="translate(27 2075)" stroke="#FFF">
+      <rect stroke-width=".65" x="54" y="51" width="98" height="98" rx="48.75"/>
+      <g stroke-linecap="round" stroke-linejoin="round" stroke-width="4.096">
+        <path d="M101.777 15.582V0M101.777 201.056v-15.582M16.495 100.864H.913M201.97 100.864h-15.583M41.474 40.561l-11.02-11.019M172.624 171.711l-11.02-11.019M162.08 40.56l11.019-11.018M30.93 171.71l11.019-11.018"/>
+      </g>
+    </g>
+    <g transform="translate(15 2319)" stroke="#FFF">
+      <rect stroke-width=".75" x="59" y="55" width="113" height="113" rx="56.25"/>
+      <g stroke-linecap="round" stroke-linejoin="round" stroke-width="4.608">
+        <path d="M113.499 17.53V0M113.499 226.188v-17.53M17.557 113.472H.027M226.215 113.472h-17.53M45.658 45.63L33.262 33.236M193.202 193.175l-12.396-12.396M181.34 45.63l12.396-12.395M33.796 193.175l12.396-12.396"/>
+      </g>
+    </g>
+  </g>
+</svg>
