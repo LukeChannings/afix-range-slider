@@ -3,17 +3,15 @@ const { min, max, round } = Math
 const template = html`
   <template>
     <div class="slider">
-      <input type="range" class="input" min="0" max="100" value="50" />
+      <input class="input" type="range" />
       <div class="track"></div>
     </div>
     <style>
     .slider {
       --rangeInputColor: rgba(0, 0, 0, 0.8);
       --rangeInputTrackColor: currentColor;
-      --rangeInputWidth: var(--width, 3.75rem);
-      --rangeInputHeight: var(--height, calc(2.666666667 * var(--rangeInputWidth)));
-      --rangeInputIconSize: var(--rangeInputIconSize, calc(var(--rangeInputWidth) / 3));
-      --rangeValueTextColor: #fff;
+      --rangeInputWidth: var(--rangeWidth, 3.75rem);
+      --rangeInputHeight: var(--rangeHeight, calc(2.666666667 * var(--rangeInputWidth)));
 
       background-color: var(--rangeInputColor);
       overflow: hidden;
@@ -36,9 +34,6 @@ const template = html`
 
     .slider:focus-within {
       transform: scale(1.05);
-    }
-
-    .slider:focus-within {
       outline-color: -webkit-focus-ring-color;
       outline-style: auto;
       outline-width: 5px;
