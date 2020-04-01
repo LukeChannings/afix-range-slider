@@ -7,12 +7,13 @@
   <style>
     body {
       background-color: #4C5962;
-      background-size: cover;
+      box-sizing: border-box;
     }
 
     * {
       margin: 0;
       padding: 0;
+      box-sizing: inherit;
     }
 
     .flex {
@@ -25,13 +26,13 @@
       align-items: center;
     }
   </style>
-  <script src="range-slider/index.js" type="module" defer></script>
+  <script src="range-slider.webcomponent.js" type="module" defer></script>
 </head>
 <body>
   <div class="flex">
-    <range-slider min="0" max="100" value="0" style="color: #3860aa"></range-slider>
-    <range-slider min="0" max="100" value="25" style="color: #757f1c"></range-slider>
-    <range-slider min="0" max="100" value="50" style="color: #a88821"></range-slider>
+    <range-slider min="0" max="100" value="0" style="color: #3860aa" aria-label="Bedroom Lights"></range-slider>
+    <range-slider min="0" max="100" value="25" style="color: #757f1c" aria-label="Bathroom Lights"></range-slider>
+    <range-slider min="0" max="100" value="50" style="color: #a88821" aria-label="Lounge Lights"></range-slider>
   </div>
   <div class="flex">
     <range-slider min="0" max="100" value="0" style="color: #a85521; --width: 9.975rem; --height: 3.75rem"></range-slider>
