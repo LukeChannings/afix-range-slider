@@ -5,12 +5,6 @@ const template = html`
     <div class="slider">
       <input type="range" class="input" min="0" max="100" value="50" />
       <div class="track"></div>
-      <slot name="valueLabel">
-        <span class="valueLabel"></span>
-      </slot>
-      <div class="icon">
-        <slot name="icon"></slot>
-      </div>
     </div>
     <style>
     .slider {
@@ -76,29 +70,7 @@ const template = html`
       width: 1px;
       margin: -1px;
       overflow: hidden;
-      padding: 0;
       position: absolute;
-    }
-
-    .valueLabel {
-      position: absolute;
-      bottom: 50%;
-      left: 0;
-      width: 100%;
-      text-align: center;
-      font-family: system-ui;
-      font-size: calc(var(--rangeInputWidth) / 3);
-      color: #fff;
-      transform: translateY(50%);
-    }
-
-    .icon {
-      position: absolute;
-      bottom: 15px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: var(--rangeInputIconSize);
-      height: var(--rangeInputIconSize);
     }
     </style>
   </template>
