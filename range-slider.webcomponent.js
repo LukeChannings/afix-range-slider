@@ -10,10 +10,13 @@ const template = html`
     .slider {
       --rangeInputColor: rgba(0, 0, 0, 0.8);
       --rangeInputTrackColor: currentColor;
-      --rangeInputWidth: var(--rangeWidth, 3.75rem);
-      --rangeInputHeight: var(--rangeHeight, calc(2.666666667 * var(--rangeInputWidth)));
+      --rangeInputTrackImage: var(--rangeTrackImage);
+
+      --rangeInputWidth: var(--rangeWidth, var(--rangeDefaultLength));
+      --rangeInputHeight: var(--rangeHeight, var(--rangeDefaultHeight));
 
       background-color: var(--rangeInputColor);
+      background-image: var(--rangeBackgroundImage);
       overflow: hidden;
       width: var(--rangeInputWidth);
       height: var(--rangeInputHeight);
@@ -40,14 +43,40 @@ const template = html`
     }
 
     .track {
+      position: relative;
       width: 100%;
       height: 100%;
-      background-color: var(--rangeInputTrackColor);
       /*
       * Safari's painting optimisation ends up leaving line artefacts behind sometimes.
       * Expanding the track's box by 2px in all directions helps prevent artefacts.
       */
       box-shadow: 2px 2px transparent;
+    }
+
+    .track.\-\-bar {
+      background-color: var(--rangeInputTrackColor);
+      background-image: var(--rangeInputTrackImage);
+    }
+
+    .track.\-\-line::after {
+      position: absolute;
+      content: "";
+      display: block;
+      background: var(--rangeTrackLineColor, #fff);
+    }
+
+    .\-\-vertical .track.\-\-line::after {
+      width: 100%;
+      height: 2px;
+      left: 0;
+      top: -1px;
+    }
+
+    .\-\-horizontal .track.\-\-line::after {
+      top: 0;
+      right: -1px;
+      height: 100%;
+      width: 2px;
     }
 
     .\-\-vertical .track {
@@ -75,12 +104,21 @@ class RangeSlider extends HTMLElement {
   constructor() {
     super();
 
+    this.min = Number(this.getAttribute('min'))
+    this.max = Number(this.getAttribute('max'))
+    this.value = Number(this.getAttribute('value'))
+
     this.attachShadow({ mode: 'open' }).appendChild(template.content.cloneNode(true))
 
     this.sliderEl = this.shadowRoot.querySelector('.slider')
     this.inputEl = this.shadowRoot.querySelector('.input')
     this.trackEl = this.shadowRoot.querySelector('.track')
     this.valueLabelEl = this.shadowRoot.querySelector('.valueLabel')
+
+    const horizontal = this.getAttribute('horizontal') !== null
+
+    this.sliderEl.style.setProperty('--rangeDefaultLength', horizontal ? '12rem' : '3.75rem')
+    this.sliderEl.style.setProperty('--rangeDefaultHeight', horizontal ? '3.75rem': '10rem')
 
     const { width, height } = this.sliderEl.getBoundingClientRect()
 
@@ -96,25 +134,30 @@ class RangeSlider extends HTMLElement {
   }
 
   initializeInput() {
-    const min = this.getAttribute('min')
-    const max = this.getAttribute('max')
-    const value = this.getAttribute('value')
+
+    this.inputEl.min = this.min
+    this.inputEl.max = this.max
+
+    this.setValue(this.value)
 
     this.inputEl.addEventListener('change', () => this.setValue(this.inputEl.value), { passive: true })
 
     this.sliderEl.addEventListener('wheel', e => {
-      const delta = (this.aspect === 'vertical' ? e.deltaY / this.deltaYMax : -e.deltaX / this.deltaXMax) * 100
+      const delta = (this.aspect === 'vertical' ? e.deltaY / this.deltaYMax : -e.deltaX / this.deltaXMax) * this.max
       this.setValue(Number(this.inputEl.value) + delta)
       e.preventDefault()
     })
-
-    this.inputEl.min = min
-    this.inputEl.max = max
-
-    this.setValue(value)
   }
 
   initializeSlider() {
+    const positionIndicatorStyle = this.getAttribute('position-indicator') ?? 'bar'
+
+    if (positionIndicatorStyle === 'line') {
+      this.trackEl.classList.add('--line')
+    } else {
+      this.trackEl.classList.add('--bar')
+    }
+
     this.hasPointerCapture = false
 
     this.sliderEl.addEventListener('touchstart', e => e.preventDefault())
@@ -136,7 +179,7 @@ class RangeSlider extends HTMLElement {
         this.lastX = e.x
         this.lastY = e.y
 
-        const delta = (this.aspect === 'vertical' ? deltaY / this.deltaYMax : -deltaX / this.deltaXMax) * 100
+        const delta = (this.aspect === 'vertical' ? deltaY / this.deltaYMax : -deltaX / this.deltaXMax) * this.max
 
         this.setValue(Number(this.inputEl.value) + delta)
       }
@@ -150,22 +193,18 @@ class RangeSlider extends HTMLElement {
   }
 
   setValue(value) {
-    const boundedValue = minmax(value)
+    const boundedValue = max(this.min, min(this.max, value))
     const roundedValue = round(boundedValue)
 
     if (this.currentValue === roundedValue) { return }
 
     this.inputEl.value = roundedValue
-    this.sliderEl.style.setProperty('--rangeInputValue', boundedValue + '%')
+    this.sliderEl.style.setProperty('--rangeInputValue', (boundedValue / this.max * 100) + '%')
     this.value = roundedValue
     this.setAttribute('value', roundedValue)
     this.dispatchEvent(new CustomEvent('change', { detail: { value: roundedValue } }))
     this.currentValue = this.inputEl.value
   }
-}
-
-function minmax(n) {
-  return max(0, min(100, n))
 }
 
 function html(htmlString) {
