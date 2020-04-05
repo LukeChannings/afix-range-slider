@@ -104,16 +104,17 @@ class RangeSlider extends HTMLElement {
   constructor() {
     super();
 
-    this.min = Number(this.getAttribute('min'))
-    this.max = Number(this.getAttribute('max'))
-    this.value = Number(this.getAttribute('value'))
-
     this.attachShadow({ mode: 'open' }).appendChild(template.content.cloneNode(true))
 
     this.sliderEl = this.shadowRoot.querySelector('.slider')
     this.inputEl = this.shadowRoot.querySelector('.input')
     this.trackEl = this.shadowRoot.querySelector('.track')
     this.valueLabelEl = this.shadowRoot.querySelector('.valueLabel')
+
+    this.min = Number(this.getAttribute('min'))
+    this.max = Number(this.getAttribute('max'))
+
+    this.setValue(Number(this.getAttribute('value')))
 
     const horizontal = this.getAttribute('horizontal') !== null
 
@@ -138,13 +139,11 @@ class RangeSlider extends HTMLElement {
     this.inputEl.min = this.min
     this.inputEl.max = this.max
 
-    this.setValue(this.value)
-
     this.inputEl.addEventListener('change', () => this.setValue(this.inputEl.value), { passive: true })
 
     this.sliderEl.addEventListener('wheel', e => {
       const delta = (this.aspect === 'vertical' ? e.deltaY / this.deltaYMax : -e.deltaX / this.deltaXMax) * this.max
-      this.setValue(Number(this.inputEl.value) + delta)
+      this.setValue(this.value + delta)
       e.preventDefault()
     })
   }
@@ -181,7 +180,7 @@ class RangeSlider extends HTMLElement {
 
         const delta = (this.aspect === 'vertical' ? deltaY / this.deltaYMax : -deltaX / this.deltaXMax) * this.max
 
-        this.setValue(Number(this.inputEl.value) + delta)
+        this.setValue(this.value + delta)
       }
     }, { passive: true })
 
@@ -196,14 +195,13 @@ class RangeSlider extends HTMLElement {
     const boundedValue = max(this.min, min(this.max, value))
     const roundedValue = round(boundedValue)
 
-    if (this.currentValue === roundedValue) { return }
+    if (this.value === boundedValue) { return }
 
     this.inputEl.value = roundedValue
     this.sliderEl.style.setProperty('--rangeInputValue', (boundedValue / this.max * 100) + '%')
-    this.value = roundedValue
-    this.setAttribute('value', roundedValue)
-    this.dispatchEvent(new CustomEvent('change', { detail: { value: roundedValue } }))
-    this.currentValue = this.inputEl.value
+    this.value = boundedValue
+    this.setAttribute('value', boundedValue)
+    this.dispatchEvent(new CustomEvent('change', { detail: { value: boundedValue } }))
   }
 }
 
