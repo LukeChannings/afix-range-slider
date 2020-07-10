@@ -1,0 +1,20 @@
+{
+  "name": "vertical-range-slider",
+  "version": "1.0.0",
+  "description": "Zero-dependency recreation of the iOS vertical range slider. Uses a range input as an accessibility base. Supports scroll events and pointer events. (It also bounces a little when you touch it.)",
+  "main": "range-slider.webcomponent.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LukeChannings/vertical-range-slider.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/LukeChannings/vertical-range-slider/issues"
+  },
+  "homepage": "https://github.com/LukeChannings/vertical-range-slider#readme"
+}
