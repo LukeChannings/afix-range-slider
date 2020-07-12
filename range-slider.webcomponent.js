@@ -4,7 +4,8 @@ const template = html`
   <template>
     <div class="slider">
       <input class="input" type="range" />
-      <div class="track"></div>
+      <div class="track value"></div>
+      <div class="track shadow-value --bar"></div>
     </div>
     <style>
     .slider {
@@ -43,9 +44,11 @@ const template = html`
     }
 
     .track {
-      position: relative;
+      position: absolute;
       width: 100%;
       height: 100%;
+      top: 0;
+      left: 0;
       /*
       * Safari's painting optimisation ends up leaving line artefacts behind sometimes.
       * Expanding the track's box by 2px in all directions helps prevent artefacts.
@@ -79,13 +82,10 @@ const template = html`
       width: 2px;
     }
 
-    .\-\-vertical .track {
-      transform: translateY(calc(100% - var(--rangeInputValue)));
-    }
-
-    .\-\-horizontal .track {
-      transform: translateX(calc(-100% + var(--rangeInputValue)));
-    }
+    .\-\-vertical .track.value { transform: translateY(calc(100% - var(--rangeValue))); }
+    .\-\-vertical .track.shadow-value { transform: translateY(calc(100% - var(--rangeShadowValue))); }
+    .\-\-horizontal .track.value { transform: translateX(calc(-100% + var(--rangeValue))); }
+    .\-\-horizontal .track.shadow-value { transform: translateX(calc(-100% + var(--rangeShadowValue))); }
 
     .input {
       clip: rect(1px, 1px, 1px, 1px);
@@ -113,8 +113,10 @@ class RangeSlider extends HTMLElement {
 
     this.min = Number(this.getAttribute('min'))
     this.max = Number(this.getAttribute('max'))
+    this.step = Number(this.getAttribute('step') || '1')
 
     this.setValue(Number(this.getAttribute('value')))
+    this.setShadowValue(Number(this.getAttribute('shadow-value') || '0'))
 
     const horizontal = this.getAttribute('horizontal') !== null
 
@@ -142,9 +144,16 @@ class RangeSlider extends HTMLElement {
     this.inputEl.addEventListener('change', () => this.setValue(this.inputEl.value), { passive: true })
 
     this.sliderEl.addEventListener('wheel', e => {
-      const delta = (this.aspect === 'vertical' ? e.deltaY / this.deltaYMax : -e.deltaX / this.deltaXMax) * this.max
-      this.setValue(this.value + delta)
       e.preventDefault()
+      let delta
+
+      if (this.aspect === 'vertical') {
+        delta = (e.deltaY * this.step) / this.deltaYMax
+      } else {
+        delta = (-e.deltaX * this.step) / this.deltaXMax
+      }
+
+      this.setValue(this.value + (delta * (this.max - this.min)))
     })
   }
 
@@ -178,9 +187,15 @@ class RangeSlider extends HTMLElement {
         this.lastX = e.x
         this.lastY = e.y
 
-        const delta = (this.aspect === 'vertical' ? deltaY / this.deltaYMax : -deltaX / this.deltaXMax) * this.max
+        let delta
 
-        this.setValue(this.value + delta)
+        if (this.aspect === 'vertical') {
+          delta = deltaY / this.deltaYMax
+        } else {
+          delta = -deltaX / this.deltaXMax
+        }
+
+        this.setValue(this.value + delta * (this.max - this.min))
       }
     }, { passive: true })
 
@@ -198,10 +213,43 @@ class RangeSlider extends HTMLElement {
     if (this.value === boundedValue) { return }
 
     this.inputEl.value = roundedValue
-    this.sliderEl.style.setProperty('--rangeInputValue', (boundedValue / this.max * 100) + '%')
+    this.sliderEl.style.setProperty(
+      '--rangeValue',
+      (((boundedValue - this.min) / (this.max - this.min)) * 100) + '%'
+    )
     this.value = boundedValue
     this.setAttribute('value', boundedValue)
-    this.dispatchEvent(new CustomEvent('change', { detail: { value: boundedValue } }))
+    const fractionDigits = this.step % 1 > 0 ? String(this.step).replace(/^.+?\./, '').length : 0
+    this.dispatchEvent(new CustomEvent('change', {
+      detail: {
+        value: Number(boundedValue.toFixed(fractionDigits)),
+        boundedValue,
+        roundedValue,
+      }
+    }))
+  }
+
+  setShadowValue(shadowValue) {
+    this.shadowValue = shadowValue
+    this.sliderEl.style.setProperty(
+      '--rangeShadowValue',
+      (((shadowValue - this.min) / (this.max - this.min)) * 100) + '%'
+    )
+  }
+
+  static get observedAttributes() {
+    return ['value', 'shadow-value', 'min', 'max', 'step']
+  }
+
+  attributeChangedCallback(name, oldValue, newValue) {
+    switch (name) {
+      case "value":
+        this.setValue(Number(newValue))
+        break
+      case "shadow-value":
+        this.setShadowValue(newValue)
+        break
+    }
   }
 }
 
