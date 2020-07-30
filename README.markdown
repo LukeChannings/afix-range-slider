@@ -1,41 +1,20 @@
-# Vertical Range Slider
+# Range Slider
 
-Zero-dependency recreation of the iOS vertical range slider. Uses a range input as an accessibility base. Supports scroll events and pointer events. (It also bounces a little when you touch it.)
+An accessible and flexible range slider web component.
 
-[Try it out](https://lukechannings.github.io/vertical-range-slider/)
+## Attributes
 
-![Brightness Slider screenshot](./screenshot.png)
+### min
 
-## Markup
+### max
 
-### Minimal structure
+### step
 
-```html
-<div class="rangeSlider">
-  <div class="rangeSlider__track"></div>
-  <input type="range" class="rangeSlider__input" min="0" max="100" value="50" />
-</div>
-```
+### value
 
-### Optional value label
+### shadow-value
 
-```html
-<div class="rangeSlider">
-  <div class="rangeSlider__track"></div>
-  <div class="rangeSlider__value"></div>
-  <input type="range" class="rangeSlider__input" min="0" max="100" value="50" />
-</div>
-```
-
-### Optional icon
-
-```html
-<div class="rangeSlider">
-  <div class="rangeSlider__track"></div>
-  <div class="rangeSlider__icon" data-type="brightness"></div>
-  <input type="range" class="rangeSlider__input" min="0" max="100" value="50" />
-</div>
-```
+### position-indicator
 
 ## CSS Variable configurations
 

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Slider</title>
+  <title>Range Slider</title>
   <style>
     body {
       background-color: #4C5962;
@@ -125,6 +125,11 @@
 
       updateColor()
     </script>
+  </div>
+  <div class="page color">
+    <div class="color__sliders" style="grid-auto-flow: rows;">
+      <range-slider min="80" max="150" value="95" shadow-value="90" style="color: rgba(56, 188, 82 ,0.5); --rangeWidth: 100px; --rangeHeight: 331px;" aria-label="Hue"></range-slider>
+    </div>
   </div>
 </body>
 </html>
