@@ -4,22 +4,43 @@ An accessible and flexible range slider web component.
 
 ## Attributes
 
-### min
+| Name               | Type            | Description                                                                                                    | 
+|--------------------|-----------------|----------------------------------------------------------------------------------------------------------------| 
+| value              | number          | The current value of the input                                                                                 | 
+| shadow-value       | number          | A secondary value shown with the value. `color` should be set to something semi-transparent with this setting. | 
+| min                | number          | The minimum permitted value                                                                                    | 
+| max                | number          | The maximum permitted value                                                                                    | 
+| step               | number          | The stepping interval, used both for user interface and validation purposes                                    | 
+| position-indicator | *bar* or *line* | The style of the position indicator, either a solid bar or a line.                                             | 
+| horizontal         | boolean         | The input should be displayed horizontally. Vertical by default                                                | 
 
-### max
-
-### step
-
-### value
-
-### shadow-value
-
-### position-indicator
 
 ## CSS Variable configurations
 
-- `--rangeInputColor`: Change the background colour of the input (default: `rgba(0, 0, 0, 0.8)`)
-- `--rangeInputTrackColor`: Change the range track colour (default: `#fff`)
-- `--rangeInputWidth`: Change the input width (default `3.75rem`, usually `60px`)
-- `--rangeInputHeight`: Change the input height (default: `2.66 * width`.)
-- `--rangeInputIconSize`: Change the icon size (default: `width / 3` )
+| Name                   | Default                            | Description                              | 
+|------------------------|------------------------------------|------------------------------------------| 
+| color                  | currentColor                       | The track color                          | 
+| --rangeTrackImage      | none                               | The `background-image` for the track     | 
+| --rangeWidth           | 3.75rem vertical, 12rem horizontal | Width of the range                       | 
+| --rangeHeight          | 10rem vertical, 3.75rem horizontal | Height of the range                      | 
+| --rangeBackgroundColor | rgba(0, 0, 0, 0.8)                 | `background-color` for the range element | 
+| --rangeBackgroundImage | none                               | `background-image` for the range element | 
+| --rangeBorder          | none                               | `border` for the range element           | 
+
+
+## Events
+
+### `change`
+
+A [CustomEvent](https://developer.mozilla.org/en-US/docs/Web/API/CustomEvent) where the shape of `detail` conforms to the following interface:
+
+```typescript
+interface RangeSliderChange {
+  // Good for presenting to the user - The boundedValue to a fixed number of places based on the step attribute.
+  value: number;
+  // Good for using in calculations, more precise than value - the raw input value after minmax(value)
+  boundedValue: number;
+  // the bounded value after Math.round()
+  roundedValue: number;
+}
+```
