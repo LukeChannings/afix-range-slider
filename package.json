@@ -1,5 +1,5 @@
 {
-  "name": "range-slider-element",
+  "name": "aprefix-range-slider-element",
   "version": "1.2.1",
   "description": "Zero-dependency recreation of the iOS vertical range slider. Uses a range input as an accessibility base. Supports scroll events and pointer events. (It also bounces a little when you touch it.)",
   "main": "range-slider.webcomponent.js",
