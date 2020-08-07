@@ -15,7 +15,7 @@ An accessible and flexible range slider web component.
 | horizontal         | boolean         | The input should be displayed horizontally. Vertical by default                                                | 
 
 
-## CSS Variable configurations
+## CSS Variables
 
 | Name                   | Default                            | Description                              | 
 |------------------------|------------------------------------|------------------------------------------| 
