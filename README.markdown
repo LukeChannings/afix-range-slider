@@ -3,14 +3,14 @@
 An accessible and flexible range slider web component.
 
 <div style="text-align: center">
-  <a href="https://blog.lukechannings.com/range-slider-element/#hsl"><img src="screenshots/hsl.png" alt="HSL" width="25%" /></a>
-  <a href="https://blog.lukechannings.com/range-slider-element/#rgb"><img src="screenshots/rgb.png" alt="RGB" width="25%" /></a>
-  <a href="https://blog.lukechannings.com/range-slider-element/example.html"><img src="screenshots/borders.png" alt="With borders" width="33.15%" /></a>
+  <a href="https://blog.lukechannings.com/afix-range-slider/#hsl"><img src="screenshots/hsl.png" alt="HSL" width="25%" /></a>
+  <a href="https://blog.lukechannings.com/afix-range-slider/#rgb"><img src="screenshots/rgb.png" alt="RGB" width="25%" /></a>
+  <a href="https://blog.lukechannings.com/afix-range-slider/example.html"><img src="screenshots/borders.png" alt="With borders" width="33.15%" /></a>
 </div>
 
 ## Installation
 
-`npm install range-slider-element`
+`npm install afix-range-slider`
 
 ## Usage
 
