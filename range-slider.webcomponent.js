@@ -108,7 +108,7 @@ const template = html`
   </template>
 `
 
-class RangeSlider extends HTMLElement {
+export class RangeSlider extends HTMLElement {
   constructor() {
     super()
 
