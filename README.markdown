@@ -8,6 +8,14 @@ An accessible and flexible range slider web component.
   <a href="https://blog.lukechannings.com/range-slider-element/example.html"><img src="screenshots/borders.png" alt="With borders" width="33.15%" /></a>
 </div>
 
+## Installation
+
+`npm install range-slider-element`
+
+## Usage
+
+`<range-slider value="50" min="25" max="75" />`
+
 ## Attributes
 
 | Name               | Type            | Description                                                                                                    | 
