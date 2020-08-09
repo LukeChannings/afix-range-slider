@@ -36,7 +36,7 @@ This component depends on the following features.
 
 - [CSS Custom Properties](https://caniuse.com/#feat=custom-elementsv1)
 - [Web Components](https://caniuse.com/#feat=custom-elementsv1)
-- [JavaScript modules](https://caniuse.com/#feat=es6-module) **Note**, if you're compiling with a build tool this requirement will go away
+- [JavaScript modules](https://caniuse.com/#feat=es6-module) *Optional*
 
 All modern browsers have supported these features for some time. If you need IE support you will need to look elsewhere.
 
