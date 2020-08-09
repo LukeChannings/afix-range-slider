@@ -5,7 +5,7 @@ An accessible and flexible range slider web component.
 <div style="text-align: center">
   <a href="https://blog.lukechannings.com/afix-range-slider/#hsl"><img src="screenshots/hsl.png" alt="HSL" width="25%" /></a>
   <a href="https://blog.lukechannings.com/afix-range-slider/#rgb"><img src="screenshots/rgb.png" alt="RGB" width="25%" /></a>
-  <a href="https://blog.lukechannings.com/afix-range-slider/example.html"><img src="screenshots/borders.png" alt="With borders" width="33.15%" /></a>
+  <a href="https://blog.lukechannings.com/afix-range-slider/#complex"><img src="screenshots/borders.png" alt="With borders" width="33.15%" /></a>
 </div>
 
 ## Installation
@@ -14,47 +14,46 @@ An accessible and flexible range slider web component.
 
 ## Usage
 
-`<range-slider value="50" min="25" max="75" />`
+`<afix-range-slider value="50" min="25" max="75" />`
 
 ## Attributes
 
-| Name               | Type            | Description                                                                                                    | 
-|--------------------|-----------------|----------------------------------------------------------------------------------------------------------------| 
-| value              | number          | The current value of the input                                                                                 | 
-| shadow-value       | number          | A secondary value shown with the value. `color` should be set to something semi-transparent with this setting. | 
-| min                | number          | The minimum permitted value                                                                                    | 
-| max                | number          | The maximum permitted value                                                                                    | 
-| step               | number          | The stepping interval, used both for user interface and validation purposes                                    | 
-| position-indicator | *bar* or *line* | The style of the position indicator, either a solid bar or a line.                                             | 
-| horizontal         | boolean         | The input should be displayed horizontally. Vertical by default                                                | 
+| Name               | Type            | Description                                                                                                    |
+| ------------------ | --------------- | -------------------------------------------------------------------------------------------------------------- |
+| value              | number          | The current value of the input                                                                                 |
+| shadow-value       | number          | A secondary value shown with the value. `color` should be set to something semi-transparent with this setting. |
+| min                | number          | The minimum permitted value                                                                                    |
+| max                | number          | The maximum permitted value                                                                                    |
+| step               | number          | The stepping interval, used both for user interface and validation purposes                                    |
+| position-indicator | _bar_ or _line_ | The style of the position indicator, either a solid bar or a line.                                             |
+| horizontal         | boolean         | The input should be displayed horizontally. Vertical by default                                                |
 
+### CSS Custom Properties
 
-## CSS Variables
+Remember **all custom properties are prefixed with the component name**. e.g. `background-color` is `--afix-range-slider-background-color`.
 
-| Name                   | Default                            | Description                              | 
-|------------------------|------------------------------------|------------------------------------------| 
-| color                  | currentColor                       | The track color                          | 
-| --rangeTrackImage      | none                               | The `background-image` for the track     | 
-| --rangeWidth           | 3.75rem vertical, 12rem horizontal | Width of the range                       | 
-| --rangeHeight          | 10rem vertical, 3.75rem horizontal | Height of the range                      | 
-| --rangeBackgroundColor | rgba(0, 0, 0, 0.8)                 | `background-color` for the range element | 
-| --rangeBackgroundImage | none                               | `background-image` for the range element | 
-| --rangeBorder          | none                               | `border` for the range element           | 
-
+| Name                   | Default                            | Description                                          |
+| ---------------------- | ---------------------------------- | ---------------------------------------------------- |
+| track-background-color | currentColor                       | The track color                                      |
+| track-background-image | none                               | The `background-image` for the track                 |
+| track-line-color       | none                               | The color of the line when position-indicator="line" |
+| width                  | 3.75rem vertical, 12rem horizontal | Width of the range                                   |
+| height                 | 10rem vertical, 3.75rem horizontal | Height of the range                                  |
+| background-color       | rgba(0, 0, 0, 0.8)                 | `background-color` for the range element             |
+| background-image       | none                               | `background-image` for the range element             |
+| border                 | none                               | `border` for the range element                       |
 
 ## Events
 
 ### `change`
 
-A [CustomEvent](https://developer.mozilla.org/en-US/docs/Web/API/CustomEvent) where the shape of `detail` conforms to the following interface:
+A [MessageEvent](https://developer.mozilla.org/en-US/docs/Web/API/MessageEvent) where the shape of `data` conforms to the following interface:
 
 ```typescript
 interface RangeSliderChange {
   // Good for presenting to the user - The boundedValue to a fixed number of places based on the step attribute.
   value: number;
   // Good for using in calculations, more precise than value - the raw input value after minmax(value)
-  boundedValue: number;
-  // the bounded value after Math.round()
-  roundedValue: number;
+  rawValue: number;
 }
 ```

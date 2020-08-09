@@ -1,18 +1,80 @@
 {
   "name": "afix-range-slider",
-  "version": "1.2.1",
+  "version": "1.3.0",
   "description": "An accessible and flexible range slider web component",
-  "main": "range-slider.webcomponent.js",
-  "module": "range-slider.webcomponent.js",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/LukeChannings/afix-range-slider.git"
+  "main": "src/Component.js",
+  "module": "src/Component.js",
+  "type": "module",
+  "scripts": {
+    "test": "jest",
+    "test:e2e": "jest --preset jest-playwright-preset",
+    "lint": "run-p lint:*",
+    "lint:js": "eslint src",
+    "lint:css": "stylelint --syntax html '**/*.js'",
+    "lint:ts": "tsc",
+    "lint:style": "prettier --ignore-path .gitignore  '**/*.{js,css,json,html,yaml}' --check",
+    "format": "prettier --ignore-path .gitignore  '**/*.{js,css,json,html,yaml}' --write"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/LukeChannings/afix-range-slider/issues"
+  "keywords": [
+    "Afix",
+    "Web Component"
+  ],
+  "author": "Luke Channings <contact@lukechannings.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "@babel/plugin-transform-modules-commonjs": "^7.10.4",
+    "babel-jest": "^26.2.2",
+    "eslint": "^7.6.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-jest-playwright": "^0.2.1",
+    "jest": "^26.2.2",
+    "jest-playwright": "0.0.1",
+    "jest-playwright-preset": "^1.3.0",
+    "npm-run-all": "^4.1.5",
+    "playwright": "^1.3.0",
+    "prettier": "^2.0.5",
+    "stylelint": "^13.6.1",
+    "stylelint-config-prettier": "^8.0.2",
+    "stylelint-config-standard": "^20.0.0",
+    "stylelint-no-unsupported-browser-features": "^4.0.0",
+    "typescript": "^3.9.7"
   },
-  "homepage": "https://github.com/LukeChannings/afix-range-slider#readme"
+  "dependencies": {
+    "@types/jest": "^26.0.9"
+  },
+  "eslintConfig": {
+    "env": {
+      "browser": true,
+      "es2020": true,
+      "jest": true
+    },
+    "extends": [
+      "eslint:recommended",
+      "plugin:jest-playwright/recommended",
+      "prettier"
+    ],
+    "parserOptions": {
+      "ecmaVersion": 11,
+      "sourceType": "module"
+    }
+  },
+  "stylelint": {
+    "extends": [
+      "stylelint-config-standard",
+      "stylelint-config-prettier"
+    ]
+  },
+  "browserslist": [
+    "last 1 version",
+    "> 1%"
+  ],
+  "babel": {
+    "env": {
+      "test": {
+        "plugins": [
+          "@babel/plugin-transform-modules-commonjs"
+        ]
+      }
+    }
+  }
 }
