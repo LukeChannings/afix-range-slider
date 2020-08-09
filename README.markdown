@@ -30,6 +30,16 @@ import "afix-range-slider"`
 
 `<afix-range-slider value="50" min="25" max="75" />`
 
+## Browser Support
+
+This component depends on the following features.
+
+- [CSS Custom Properties](https://caniuse.com/#feat=custom-elementsv1)
+- [Web Components](https://caniuse.com/#feat=custom-elementsv1)
+- [ESM](https://caniuse.com/#feat=es6-module) **Note**, if you're compiling with a build tool this requirement will go away
+
+All modern browsers have supported these features for some time. If you need IE support you will need to look elsewhere.
+
 ## Attributes
 
 | Name               | Type            | Description                                                                                                    |
