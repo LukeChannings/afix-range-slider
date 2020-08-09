@@ -309,8 +309,7 @@ export class AfixRangeSlider extends HTMLElement {
       new MessageEvent("change", {
         data: {
           value: Number(boundedValue.toFixed(fractionDigits)),
-          boundedValue,
-          roundedValue,
+          rawValue: boundedValue,
         },
       })
     );
