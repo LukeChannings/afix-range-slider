@@ -8,11 +8,25 @@ An accessible and flexible range slider web component.
   <a href="https://blog.lukechannings.com/afix-range-slider/#complex"><img src="screenshots/borders.png" alt="With borders" width="33.15%" /></a>
 </div>
 
-## Installation
+## Using it
 
-`npm install afix-range-slider`
+Try it out directly (requires a modern browser)
 
-## Usage
+```html
+<script src="https://cdn.skypack.dev/afix-range-slider@latest" type="module"></script>
+```
+
+Or install with
+
+```bash
+npm install afix-range-slider
+```
+
+And use like this
+
+```js
+import "afix-range-slider"`
+```
 
 `<afix-range-slider value="50" min="25" max="75" />`
 
