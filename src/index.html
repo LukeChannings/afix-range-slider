@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Range Slider</title>
+    <style>
+      body {
+        background-color: #4c5962;
+        box-sizing: border-box;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: inherit;
+      }
+
+      body {
+        scroll-snap-type: y mandatory;
+      }
+
+      .page {
+        width: 100vw;
+        height: 100vh;
+        scroll-snap-align: start;
+      }
+
+      .color {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .color__sliders {
+        display: grid;
+        grid-auto-columns: max-content;
+        gap: 15px;
+        width: 50%;
+        height: 100%;
+        align-content: center;
+        justify-content: center;
+        margin: 2rem;
+      }
+
+      .color__sliders__hue {
+        --afix-range-slider-background-image: linear-gradient(
+          -90deg,
+          hsl(360, 55%, 35%),
+          hsl(315, 55%, 35%),
+          hsl(270, 55%, 35%),
+          hsl(225, 55%, 35%),
+          hsl(180, 55%, 35%),
+          hsl(135, 55%, 35%),
+          hsl(90, 55%, 35%),
+          hsl(45, 55%, 35%),
+          hsl(0, 55%, 35%)
+        );
+      }
+
+      .color__display {
+        width: 100%;
+        height: 100%;
+        background-color: #000;
+      }
+
+      #complex .page {
+        width: 100vw;
+        height: 100vh;
+        scroll-snap-align: start;
+      }
+
+      #complex .color {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      #complex .color__sliders {
+        display: grid;
+        grid-auto-columns: max-content;
+        gap: 15px;
+        width: 50%;
+        height: 100%;
+        align-content: center;
+        justify-content: center;
+        margin: 0;
+      }
+
+      #complex .color__sliders__hue {
+        --afix-range-slider-border: 2px solid #353135;
+        --afix-range-slider-background-color: #353135;
+      }
+
+      #complex .color__display {
+        width: 100%;
+        height: 100%;
+        background-color: #000;
+      }
+
+      #complex p {
+        font-family: system-ui;
+        color: #fff;
+        margin-bottom: 8px;
+      }
+
+      #complex afix-range-slider {
+        --afix-range-slider-width: 100%;
+        --afix-range-slider-height: 100%;
+        --afix-range-slider-border: 2px solid #353135;
+        --afix-range-slider-background-color: #353135;
+      }
+    </style>
+    <script src="./Component.js" type="module"></script>
+  </head>
+  <body>
+    <div class="page color" id="rgb">
+      <div class="color__sliders" style="grid-auto-flow: column;">
+        <afix-range-slider
+          class="js-red-slider"
+          min="0"
+          max="256"
+          value="35"
+          style="color: #a00;"
+          aria-label="Red"
+        ></afix-range-slider>
+        <afix-range-slider
+          class="js-green-slider"
+          min="0"
+          max="256"
+          value="168"
+          style="color: #0a0;"
+          aria-label="Green"
+        ></afix-range-slider>
+        <afix-range-slider
+          class="js-blue-slider"
+          min="0"
+          max="256"
+          value="140"
+          style="color: #00a;"
+          aria-label="Blue"
+        ></afix-range-slider>
+      </div>
+      <div class="color__display js-rgb-display"></div>
+      <script type="module">
+        const redSlider = document.querySelector(".js-red-slider");
+        const greenSlider = document.querySelector(".js-green-slider");
+        const blueSlider = document.querySelector(".js-blue-slider");
+
+        const colorDisplay = document.querySelector(".js-rgb-display");
+
+        redSlider.addEventListener("change", updateColor);
+        greenSlider.addEventListener("change", updateColor);
+        blueSlider.addEventListener("change", updateColor);
+
+        function updateColor() {
+          const red = redSlider.value;
+          const green = greenSlider.value;
+          const blue = blueSlider.value;
+
+          colorDisplay.style.backgroundColor = `rgb(${red}, ${green}, ${blue})`;
+        }
+
+        updateColor();
+      </script>
+    </div>
+    <div class="page color" id="hsl">
+      <div class="color__sliders" style="grid-auto-flow: rows;">
+        <afix-range-slider
+          horizontal
+          position-indicator="line"
+          class="color__sliders__hue js-hue-slider"
+          min="0"
+          max="360"
+          value="0"
+          style="color: hsl(360, 100%, 50%);"
+          aria-label="Hue"
+        ></afix-range-slider>
+        <afix-range-slider
+          horizontal
+          position-indicator="line"
+          class="js-sat-slider"
+          min="0"
+          max="100"
+          value="50"
+          style="color: rgba(128, 128, 128, 0.2);"
+          aria-label="Saturation"
+        ></afix-range-slider>
+        <afix-range-slider
+          horizontal
+          class="js-lightness-slider"
+          min="0"
+          max="100"
+          value="50"
+          style="color: #fff;"
+          aria-label="Lightness"
+        ></afix-range-slider>
+      </div>
+      <div class="color__display js-hsl-display"></div>
+      <script type="module">
+        const hueSlider = document.querySelector(".js-hue-slider");
+        const saturationSlider = document.querySelector(".js-sat-slider");
+        const lightnessSlider = document.querySelector(".js-lightness-slider");
+
+        const colorDisplay = document.querySelector(".js-hsl-display");
+
+        hueSlider.addEventListener("change", updateColor);
+        saturationSlider.addEventListener("change", updateColor);
+        lightnessSlider.addEventListener("change", updateColor);
+
+        function updateColor() {
+          const hue = hueSlider.value;
+          const saturation = saturationSlider.value;
+          const lightness = lightnessSlider.value;
+
+          hueSlider.style.color = `hsla(${hue}, 100%, 50%, 0.2)`;
+          saturationSlider.style.setProperty(
+            "--afix-range-slider-background-image",
+            `linear-gradient(-90deg, hsl(${hue}, 100%, 50%), hsl(${hue}, 0%, 50%))`
+          );
+          colorDisplay.style.backgroundColor = `hsl(${hue}, ${saturation}%, ${lightness}%)`;
+        }
+
+        updateColor();
+      </script>
+    </div>
+    <div class="page color" id="complex">
+      <div
+        class="color__sliders"
+        style="
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+        "
+      >
+        <p class="js-temp-value" style="font-size: x-large; color: #fff;">
+          93
+        </p>
+        <afix-range-slider
+          class="js-temp"
+          min="80"
+          max="110"
+          step="1"
+          value="93"
+          shadow-value="93"
+          style="
+            color: rgba(231, 26, 26, 0.5);
+
+            --afix-range-slider-width: 100px;
+            --afix-range-slider-height: 311px;
+          "
+          aria-label="Temp"
+        ></afix-range-slider>
+      </div>
+      <div
+        class="color__sliders"
+        style="
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+        "
+      >
+        <p class="js-dose-value" style="font-size: x-large;">
+          18.0
+        </p>
+        <afix-range-slider
+          class="js-dose"
+          min="6"
+          max="50"
+          step=".1"
+          value="18"
+          style="
+            color: #e2e9f8;
+
+            --afix-range-slider-width: 100px;
+            --afix-range-slider-height: 311px;
+          "
+          aria-label="Dose"
+        ></afix-range-slider>
+      </div>
+      <div
+        class="color__sliders"
+        style="
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+        "
+      >
+        <p class="js-grind-value" style="font-size: x-large;">
+          1
+        </p>
+        <afix-range-slider
+          class="js-grind"
+          min="0"
+          max="50"
+          step="1"
+          value="1"
+          style="
+            color: #f3e2f3;
+
+            --afix-range-slider-width: 100px;
+            --afix-range-slider-height: 311px;
+          "
+          aria-label="Dose"
+        ></afix-range-slider>
+      </div>
+      <script type="module">
+        const tempEl = document.querySelector(".js-temp");
+        const tempValueEl = document.querySelector(".js-temp-value");
+        tempEl.addEventListener("change", (e) => {
+          const value = e.data.value;
+          if (value >= 110) {
+            tempValueEl.innerHTML = "On";
+            tempEl.setAttribute("shadow-value", "110");
+          } else if (value <= 80) {
+            tempValueEl.innerHTML = "Off";
+            tempEl.setAttribute("shadow-value", "80");
+          } else {
+            tempValueEl.innerHTML = value;
+            tempEl.setAttribute("shadow-value", "93");
+          }
+        });
+
+        const doseEl = document.querySelector(".js-dose-value");
+        document.querySelector(".js-dose").addEventListener("change", (e) => {
+          const value = e.data.value.toFixed(1);
+
+          doseEl.innerHTML = value;
+        });
+
+        const grindEl = document.querySelector(".js-grind-value");
+        document.querySelector(".js-grind").addEventListener("change", (e) => {
+          const value = e.data.value;
+
+          grindEl.innerHTML = value;
+        });
+      </script>
+    </div>
+  </body>
+</html>
