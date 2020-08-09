@@ -10,7 +10,7 @@ An accessible and flexible range slider web component.
 
 ## Using it
 
-Try it out directly (requires a modern browser)
+Via a script tag,
 
 ```html
 <script src="https://cdn.skypack.dev/afix-range-slider@latest" type="module"></script>
