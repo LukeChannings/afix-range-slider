@@ -148,6 +148,17 @@ export class AfixRangeSlider extends HTMLElement {
     this.setValue(Number(this.getAttribute("value")));
     this.setShadowValue(Number(this.getAttribute("shadow-value") || "0"));
 
+    if ('ResizeObserver' in window) {
+      this.resizeObserver = new ResizeObserver(() => this.setDimensions())
+      this.resizeObserver.observe(this.sliderEl)
+    }
+
+    this.setDimensions();
+    this.initializeInput();
+    this.initializeSlider();
+  }
+
+  setDimensions() {
     const horizontal = this.getAttribute("horizontal") !== null;
 
     if (
@@ -180,9 +191,6 @@ export class AfixRangeSlider extends HTMLElement {
     this.aspect = width > height ? "horizontal" : "vertical";
 
     this.sliderEl.classList.add(`--${this.aspect}`);
-
-    this.initializeInput();
-    this.initializeSlider();
   }
 
   initializeInput() {
@@ -204,9 +212,9 @@ export class AfixRangeSlider extends HTMLElement {
       let delta;
 
       if (this.aspect === "vertical") {
-        delta = (e.deltaY * this.step) / this.deltaYMax;
+        delta = (e.deltaY * this.step) / (this.deltaYMax || 1);
       } else {
-        delta = (-e.deltaX * this.step) / this.deltaXMax;
+        delta = (-e.deltaX * this.step) / (this.deltaXMax || 1);
       }
 
       this.setValue((this.value || 0) + delta * (this.max - this.min));
@@ -261,9 +269,9 @@ export class AfixRangeSlider extends HTMLElement {
           let delta;
 
           if (this.aspect === "vertical") {
-            delta = deltaY / this.deltaYMax;
+            delta = deltaY / (this.deltaYMax || 1);
           } else {
-            delta = -deltaX / this.deltaXMax;
+            delta = -deltaX / (this.deltaXMax || 1);
           }
 
           this.setValue((this.value || 0) + delta * (this.max - this.min));
@@ -343,6 +351,9 @@ export class AfixRangeSlider extends HTMLElement {
         break;
       case "shadow-value":
         this.setShadowValue(Number(newValue));
+        break;
+      case "horizontal":
+        this.setDimensions();
         break;
     }
   }
