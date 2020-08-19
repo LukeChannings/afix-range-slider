@@ -24,6 +24,7 @@ const template = html`
         margin: 0;
         position: relative;
         transition: transform ease-in-out 200ms;
+        clip-path: border-box;
       }
 
       .--vertical {
@@ -91,6 +92,7 @@ const template = html`
       }
       .--vertical .track.shadow-value {
         transform: translateY(calc(100% - var(--afix-shadow-value)));
+        transition: transform 300ms linear;
       }
       .--horizontal .track.value {
         transform: translateX(calc(-100% + var(--afix-value)));

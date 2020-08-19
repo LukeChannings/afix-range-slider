@@ -1,6 +1,6 @@
 {
   "name": "afix-range-slider",
-  "version": "1.3.2",
+  "version": "1.3.3",
   "description": "An accessible and flexible range slider web component",
   "main": "src/Component.js",
   "module": "src/Component.js",
