@@ -150,9 +150,9 @@ export class AfixRangeSlider extends HTMLElement {
     this.setValue(Number(this.getAttribute("value")));
     this.setShadowValue(Number(this.getAttribute("shadow-value") || "0"));
 
-    if ('ResizeObserver' in window) {
-      this.resizeObserver = new ResizeObserver(() => this.setDimensions())
-      this.resizeObserver.observe(this.sliderEl)
+    if ("ResizeObserver" in window) {
+      this.resizeObserver = new ResizeObserver(() => this.setDimensions());
+      this.resizeObserver.observe(this.sliderEl);
     }
 
     this.setDimensions();
