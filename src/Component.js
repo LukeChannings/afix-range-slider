@@ -143,6 +143,7 @@ export class AfixRangeSlider extends HTMLElement {
       new Error(".track wasnt defined")
     );
 
+    this.setName(this.getAttribute("name"));
     this.min = Number(this.getAttribute("min"));
     this.max = Number(this.getAttribute("max"));
     this.step = Number(this.getAttribute("step") || "1");
@@ -190,9 +191,15 @@ export class AfixRangeSlider extends HTMLElement {
     this.deltaYMax = height;
     this.deltaXMax = width;
 
-    this.aspect = width > height ? "horizontal" : "vertical";
-
-    this.sliderEl.classList.add(`--${this.aspect}`);
+    if (width > height) {
+      this.aspect = "horizontal";
+      this.sliderEl.classList.remove("--vertical");
+      this.sliderEl.classList.add("--horizontal");
+    } else {
+      this.aspect = "vertical";
+      this.sliderEl.classList.remove("--horizontal");
+      this.sliderEl.classList.add("--vertical");
+    }
   }
 
   initializeInput() {
@@ -317,6 +324,7 @@ export class AfixRangeSlider extends HTMLElement {
       this.step % 1 > 0 ? String(this.step).replace(/^.+?\./, "").length : 0;
     this.dispatchEvent(
       new MessageEvent("change", {
+        bubbles: true,
         data: {
           value: Number(boundedValue.toFixed(fractionDigits)),
           rawValue: boundedValue,
@@ -337,8 +345,17 @@ export class AfixRangeSlider extends HTMLElement {
     );
   }
 
+  /**
+   *
+   * @param {*} name
+   */
+  setName(name) {
+    this.name = name;
+    this.inputEl.name = name;
+  }
+
   static get observedAttributes() {
-    return ["value", "shadow-value", "min", "max", "step"];
+    return ["value", "shadow-value", "min", "max", "step", "name"];
   }
 
   /**
@@ -357,6 +374,10 @@ export class AfixRangeSlider extends HTMLElement {
       case "horizontal":
         this.setDimensions();
         break;
+      case "name": {
+        this.setName(newValue);
+        break;
+      }
     }
   }
 }
