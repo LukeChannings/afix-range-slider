@@ -69,6 +69,7 @@
         width: 100vw;
         height: 100vh;
         scroll-snap-align: start;
+        flex-direction: column;
       }
 
       #complex .color {
@@ -107,14 +108,24 @@
       }
 
       #complex afix-range-slider {
-        --afix-range-slider-width: 100%;
-        --afix-range-slider-height: 100%;
+        --afix-range-slider-width: 70vw;
+        --afix-range-slider-height: 20vw;
         --afix-range-slider-border: 2px solid #353135;
         --afix-range-slider-background-color: #353135;
       }
+
+      @media screen and (min-width: 48em) {
+        #complex afix-range-slider {
+          --afix-range-slider-width: 5rem;
+          --afix-range-slider-height: 15rem;
+        }
+        #complex.page {
+          flex-direction: row;
+        }
+      }
     </style>
     <script
-      src="https://cdn.skypack.dev/afix-range-slider@latest"
+      src="./Component.js"
       type="module"
     ></script>
   </head>
@@ -251,9 +262,6 @@
           shadow-value="93"
           style="
             color: rgba(231, 26, 26, 0.5);
-
-            --afix-range-slider-width: 100px;
-            --afix-range-slider-height: 311px;
           "
           aria-label="Temp"
         ></afix-range-slider>
@@ -278,9 +286,6 @@
           value="18"
           style="
             color: #e2e9f8;
-
-            --afix-range-slider-width: 100px;
-            --afix-range-slider-height: 311px;
           "
           aria-label="Dose"
         ></afix-range-slider>
@@ -305,9 +310,6 @@
           value="1"
           style="
             color: #f3e2f3;
-
-            --afix-range-slider-width: 100px;
-            --afix-range-slider-height: 311px;
           "
           aria-label="Dose"
         ></afix-range-slider>

@@ -2,29 +2,34 @@ const { min, max, round } = Math;
 
 const template = html`
   <template>
-    <div class="slider">
+    <div class="slider" part="root">
       <input class="input" type="range" />
-      <div class="track value"></div>
-      <div class="track shadow-value --bar"></div>
+      <div class="track value" part="track"></div>
+      <div class="track shadow-value --bar" part="shadow-track"></div>
     </div>
     <style>
       .slider {
-        --width: var(--afix-range-slider-width);
-        --height: var(--afix-range-slider-height);
+        --width: var(--afix-range-slider-width, 4rem);
+        --height: var(--afix-range-slider-height, 12rem);
 
         background-color: var(
           --afix-range-slider-background-color,
           rgba(0, 0, 0, 0.8)
         );
         background-image: var(--afix-range-slider-background-image, none);
-        overflow: hidden;
         border: var(--afix-range-slider-border, none);
-        width: var(--afix-range-slider-width);
-        height: var(--afix-range-slider-height);
+        width: var(--width);
+        height: var(--height);
         margin: 0;
         position: relative;
-        transition: transform ease-in-out 200ms;
+        transition: transform ease-in-out 100ms;
+        overflow: hidden;
         clip-path: border-box;
+      }
+
+      :host([horizontal]) .slider {
+        --width: var(--afix-range-slider-width, 12rem);
+        --height: var(--afix-range-slider-height, 4rem);
       }
 
       .--vertical {
@@ -92,7 +97,7 @@ const template = html`
       }
       .--vertical .track.shadow-value {
         transform: translateY(calc(100% - var(--afix-shadow-value)));
-        transition: transform 300ms linear;
+        transition: transform 100ms linear;
       }
       .--horizontal .track.value {
         transform: translateX(calc(-100% + var(--afix-value)));
@@ -152,40 +157,16 @@ export class AfixRangeSlider extends HTMLElement {
     this.setShadowValue(Number(this.getAttribute("shadow-value") || "0"));
 
     if ("ResizeObserver" in window) {
-      this.resizeObserver = new ResizeObserver(() => this.setDimensions());
+      this.resizeObserver = new ResizeObserver(() => this.setAspectRatio());
       this.resizeObserver.observe(this.sliderEl);
     }
 
-    this.setDimensions();
+    this.setAspectRatio();
     this.initializeInput();
     this.initializeSlider();
   }
 
-  setDimensions() {
-    const horizontal = this.getAttribute("horizontal") !== null;
-
-    if (
-      !getComputedStyle(this.sliderEl).getPropertyValue(
-        "--afix-range-slider-width"
-      )
-    ) {
-      this.sliderEl.style.setProperty(
-        "--afix-range-slider-width",
-        horizontal ? "12rem" : "3.75rem"
-      );
-    }
-
-    if (
-      !getComputedStyle(this.sliderEl).getPropertyValue(
-        "--afix-range-slider-height"
-      )
-    ) {
-      this.sliderEl.style.setProperty(
-        "--afix-range-slider-height",
-        horizontal ? "3.75rem" : "10rem"
-      );
-    }
-
+  setAspectRatio() {
     const { width, height } = this.sliderEl.getBoundingClientRect();
 
     this.deltaYMax = height;
@@ -341,7 +322,7 @@ export class AfixRangeSlider extends HTMLElement {
     this.shadowValue = shadowValue;
     this.sliderEl.style.setProperty(
       "--afix-shadow-value",
-      ((shadowValue - this.min) / (this.max - this.min)) * 100 + "%"
+      Math.min(100, ((shadowValue - this.min) / (this.max - this.min)) * 100) + "%"
     );
   }
 
@@ -370,9 +351,6 @@ export class AfixRangeSlider extends HTMLElement {
         break;
       case "shadow-value":
         this.setShadowValue(Number(newValue));
-        break;
-      case "horizontal":
-        this.setDimensions();
         break;
       case "name": {
         this.setName(newValue);
