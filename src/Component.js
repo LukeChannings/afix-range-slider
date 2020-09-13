@@ -27,6 +27,13 @@ const template = html`
         clip-path: border-box;
       }
 
+      .slider:focus-within {
+        transform: scale(1.05);
+        outline-color: -webkit-focus-ring-color;
+        outline-style: auto;
+        outline-width: 5px;
+      }
+
       :host([horizontal]) .slider {
         --width: var(--afix-range-slider-width, 12rem);
         --height: var(--afix-range-slider-height, 4rem);
@@ -40,13 +47,6 @@ const template = html`
       .--horizontal {
         cursor: ew-resize;
         border-radius: calc(var(--height) / 6);
-      }
-
-      .slider:focus-within {
-        transform: scale(1.05);
-        outline-color: -webkit-focus-ring-color;
-        outline-style: auto;
-        outline-width: 5px;
       }
 
       .track {
@@ -322,7 +322,8 @@ export class AfixRangeSlider extends HTMLElement {
     this.shadowValue = shadowValue;
     this.sliderEl.style.setProperty(
       "--afix-shadow-value",
-      Math.min(100, ((shadowValue - this.min) / (this.max - this.min)) * 100) + "%"
+      Math.min(100, ((shadowValue - this.min) / (this.max - this.min)) * 100) +
+        "%"
     );
   }
 
