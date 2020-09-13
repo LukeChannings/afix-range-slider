@@ -114,6 +114,23 @@
         --afix-range-slider-background-color: #353135;
       }
 
+      @keyframes HeatingIndicator {
+        0% {
+          background-color: hsl(300, 55%, 60%, 90%);
+        }
+        50% {
+          background-color: hsl(300, 35%, 60%, 60%);
+        }
+        100% {
+          background-color: hsl(300, 55%, 60%, 90%);
+        }
+      }
+
+      afix-range-slider.temp::part(track) {
+        animation: HeatingIndicator 3s infinite 1s backwards;
+        background-color: hsl(300, 55%, 60%, 90%);
+      }
+
       @media screen and (min-width: 48em) {
         #complex afix-range-slider {
           --afix-range-slider-width: 10vw;
@@ -254,7 +271,7 @@
           93
         </p>
         <afix-range-slider
-          class="js-temp"
+          class="js-temp temp"
           min="80"
           max="110"
           step="1"
