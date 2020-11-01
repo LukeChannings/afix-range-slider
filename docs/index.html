@@ -114,23 +114,6 @@
         --afix-range-slider-background-color: #353135;
       }
 
-      @keyframes HeatingIndicator {
-        0% {
-          background-color: hsl(300, 55%, 60%, 90%);
-        }
-        50% {
-          background-color: hsl(300, 35%, 60%, 60%);
-        }
-        100% {
-          background-color: hsl(300, 55%, 60%, 90%);
-        }
-      }
-
-      afix-range-slider.temp::part(track) {
-        animation: HeatingIndicator 3s infinite 1s backwards;
-        background-color: hsl(300, 55%, 60%, 90%);
-      }
-
       @media screen and (min-width: 48em) {
         #complex afix-range-slider {
           --afix-range-slider-width: 10vw;
@@ -141,20 +124,17 @@
         }
       }
     </style>
-    <script
-      src="https://cdn.skypack.dev/afix-range-slider@latest"
-      type="module"
-    ></script>
+    <script src="./Component.js" type="module"></script>
   </head>
   <body>
     <div class="page color" id="rgb">
-      <div class="color__sliders" style="grid-auto-flow: column;">
+      <div class="color__sliders" style="grid-auto-flow: column">
         <afix-range-slider
           class="js-red-slider"
           min="0"
           max="256"
           value="35"
-          style="color: #a00;"
+          style="color: #a00"
           aria-label="Red"
         ></afix-range-slider>
         <afix-range-slider
@@ -162,7 +142,7 @@
           min="0"
           max="256"
           value="168"
-          style="color: #0a0;"
+          style="color: #0a0"
           aria-label="Green"
         ></afix-range-slider>
         <afix-range-slider
@@ -170,7 +150,7 @@
           min="0"
           max="256"
           value="140"
-          style="color: #00a;"
+          style="color: #00a"
           aria-label="Blue"
         ></afix-range-slider>
       </div>
@@ -198,7 +178,7 @@
       </script>
     </div>
     <div class="page color" id="hsl">
-      <div class="color__sliders" style="grid-auto-flow: rows;">
+      <div class="color__sliders" style="grid-auto-flow: rows">
         <afix-range-slider
           horizontal
           position-indicator="line"
@@ -206,7 +186,7 @@
           min="0"
           max="360"
           value="0"
-          style="color: hsl(360, 100%, 50%);"
+          style="color: hsl(360, 100%, 50%)"
           aria-label="Hue"
         ></afix-range-slider>
         <afix-range-slider
@@ -216,7 +196,7 @@
           min="0"
           max="100"
           value="50"
-          style="color: rgba(128, 128, 128, 0.2);"
+          style="color: rgba(128, 128, 128, 0.2)"
           aria-label="Saturation"
         ></afix-range-slider>
         <afix-range-slider
@@ -225,7 +205,7 @@
           min="0"
           max="100"
           value="50"
-          style="color: #fff;"
+          style="color: #fff"
           aria-label="Lightness"
         ></afix-range-slider>
       </div>
@@ -267,9 +247,7 @@
           align-items: center;
         "
       >
-        <p class="js-temp-value">
-          93
-        </p>
+        <p class="js-temp-value">93</p>
         <afix-range-slider
           class="js-temp temp"
           min="80"
@@ -277,7 +255,8 @@
           step="1"
           value="93"
           shadow-value="93"
-          style="color: rgba(231, 26, 26, 0.5);"
+          position-indicator="line"
+          style="color: rgba(231, 26, 26, 0.5)"
           aria-label="Temp"
         ></afix-range-slider>
       </div>
@@ -290,16 +269,14 @@
           align-items: center;
         "
       >
-        <p class="js-dose-value">
-          18.0
-        </p>
+        <p class="js-dose-value">18.0</p>
         <afix-range-slider
           class="js-dose"
           min="6"
           max="50"
           step=".1"
           value="18"
-          style="color: #e2e9f8;"
+          style="color: #e2e9f8"
           aria-label="Dose"
         ></afix-range-slider>
       </div>
@@ -312,16 +289,14 @@
           align-items: center;
         "
       >
-        <p class="js-grind-value">
-          1
-        </p>
+        <p class="js-grind-value">1</p>
         <afix-range-slider
           class="js-grind"
           min="0"
           max="50"
           step="1"
           value="1"
-          style="color: #f3e2f3;"
+          style="color: #f3e2f3"
           aria-label="Dose"
         ></afix-range-slider>
       </div>

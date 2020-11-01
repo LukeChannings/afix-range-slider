@@ -1,52 +1,66 @@
-const { min, max, round } = Math;
-
 const template = html`
   <template>
     <div class="slider" part="root">
-      <input class="input" type="range" />
-      <div class="track value" part="track"></div>
-      <div class="track shadow-value --bar" part="shadow-track"></div>
+      <input type="range" />
+      <div class="track" part="comparison-value"></div>
+      <div class="track" part="value"></div>
     </div>
     <style>
-      .slider {
-        --width: var(--afix-range-slider-width, 4rem);
-        --height: var(--afix-range-slider-height, 12rem);
-
-        background-color: var(
-          --afix-range-slider-background-color,
-          rgba(0, 0, 0, 0.8)
-        );
-        background-image: var(--afix-range-slider-background-image, none);
-        border: var(--afix-range-slider-border, none);
-        width: var(--width);
-        height: var(--height);
-        margin: 0;
-        position: relative;
-        transition: transform ease-in-out 100ms;
+      :host {
+        display: inline-block;
+        width: 2rem;
+        height: 12rem;
+        cursor: ns-resize;
         overflow: hidden;
-        clip-path: border-box;
+        background-color: #c3d5df;
+        box-sizing: border-box;
+        position: relative;
       }
 
-      .slider:focus-within {
-        transform: scale(1.05);
+      :host([horizontal]) {
+        cursor: ew-resize;
+        width: 12rem;
+        height: 2rem;
+      }
+
+      :host([comparison-label])::after {
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+        content: attr(comparison-value);
+        color: var(--afix-range-slider-comparison-label-color, #fff);
+        width: 100%;
+        height: 100%;
+        text-align: center;
+        transform: translateY(
+          clamp(0%, calc(105% - var(--comparison-value)), 85%)
+        );
+        mix-blend-mode: difference;
+      }
+
+      :host([comparison-label][horizontal])::after {
+        transform: translateX(
+            clamp(5%, calc(var(--comparison-value) - 15%), 85%)
+          )
+          translateY(-50%);
+        top: 50%;
+        height: auto;
+        text-align: left;
+      }
+
+      .slider {
+        width: 100%;
+        height: 100%;
+        position: relative;
+        overflow: hidden;
+      }
+
+      :host(:focus),
+      :host(:focus-within) {
         outline-color: -webkit-focus-ring-color;
         outline-style: auto;
         outline-width: 5px;
-      }
-
-      :host([horizontal]) .slider {
-        --width: var(--afix-range-slider-width, 12rem);
-        --height: var(--afix-range-slider-height, 4rem);
-      }
-
-      .--vertical {
-        cursor: ns-resize;
-        border-radius: calc(var(--width) / 6);
-      }
-
-      .--horizontal {
-        cursor: ew-resize;
-        border-radius: calc(var(--height) / 6);
       }
 
       .track {
@@ -63,50 +77,52 @@ const template = html`
         box-shadow: 2px 2px transparent;
       }
 
-      .track.--bar {
-        background-color: var(
-          --afix-range-slider-track-background-color,
-          currentColor
-        );
-        background-image: var(--afix-range-slider-track-background-image);
+      :host(:not([line-style])) .track[part="value"] {
+        background-color: var(--afix-range-slider-value-color, currentColor);
       }
 
-      .track.--line::after {
+      :host([line-style]) .track[part="value"]::after {
         position: absolute;
         content: "";
         display: block;
-        background: var(--afix-range-slider-track-line-color, #fff);
-      }
-
-      .--vertical .track.--line::after {
+        background: var(--afix-range-slider-track-line-color, currentColor);
         width: 100%;
         height: 2px;
         left: 0;
         top: -1px;
       }
 
-      .--horizontal .track.--line::after {
+      :host([horizontal][line-style]) .track[part="value"]::after {
         top: 0;
+        left: auto;
         right: -1px;
         height: 100%;
         width: 2px;
       }
 
-      .--vertical .track.value {
-        transform: translateY(calc(100% - var(--afix-value)));
-      }
-      .--vertical .track.shadow-value {
-        transform: translateY(calc(100% - var(--afix-shadow-value)));
-        transition: transform 100ms linear;
-      }
-      .--horizontal .track.value {
-        transform: translateX(calc(-100% + var(--afix-value)));
-      }
-      .--horizontal .track.shadow-value {
-        transform: translateX(calc(-100% + var(--afix-shadow-value)));
+      :host(:not([comparison-value])) .track[part="comparison-value"] {
+        display: none;
       }
 
-      .input {
+      .track[part="comparison-value"] {
+        background-color: var(--a-range-slider-comparison-value-color, #fd892e);
+      }
+
+      .track[part="value"] {
+        transform: translateY(calc(100% - var(--value)));
+      }
+      :host([horizontal]) .track[part="value"] {
+        transform: translateX(calc(-100% + var(--value)));
+      }
+
+      .track[part="comparison-value"] {
+        transform: translateY(calc(100% - var(--comparison-value)));
+      }
+      :host([horizontal]) .track[part="comparison-value"] {
+        transform: translateX(calc(-100% + var(--comparison-value)));
+      }
+
+      input {
         clip: rect(1px, 1px, 1px, 1px);
         clip-path: inset(50%);
         height: 1px;
@@ -131,213 +147,122 @@ export class AfixRangeSlider extends HTMLElement {
     );
 
     /** @type {HTMLElement} */
-    this.sliderEl = notNull(
-      this.shadowRoot.querySelector(".slider"),
-      new Error(".slider wasnt defined")
-    );
+    this.sliderEl = notNull(this.shadowRoot.querySelector(".slider"));
 
     /** @type {HTMLInputElement} */
-    this.inputEl = notNull(
-      this.shadowRoot.querySelector(".input"),
-      new Error(".input wasnt defined")
-    );
-
-    /** @type {HTMLElement} */
-    this.trackEl = notNull(
-      this.shadowRoot.querySelector(".track"),
-      new Error(".track wasnt defined")
-    );
-
-    this.setName(this.getAttribute("name"));
-    this.min = Number(this.getAttribute("min"));
-    this.max = Number(this.getAttribute("max"));
-    this.step = Number(this.getAttribute("step") || "1");
-
-    this.setValue(Number(this.getAttribute("value")));
-    this.setShadowValue(Number(this.getAttribute("shadow-value") || "0"));
-
-    if ("ResizeObserver" in window) {
-      this.resizeObserver = new ResizeObserver(() => this.setAspectRatio());
-      this.resizeObserver.observe(this.sliderEl);
-    }
-
-    this.setAspectRatio();
-    this.initializeInput();
-    this.initializeSlider();
-  }
-
-  setAspectRatio() {
-    const { width, height } = this.sliderEl.getBoundingClientRect();
-
-    this.deltaYMax = height;
-    this.deltaXMax = width;
-
-    if (width > height) {
-      this.aspect = "horizontal";
-      this.sliderEl.classList.remove("--vertical");
-      this.sliderEl.classList.add("--horizontal");
-    } else {
-      this.aspect = "vertical";
-      this.sliderEl.classList.remove("--horizontal");
-      this.sliderEl.classList.add("--vertical");
-    }
-  }
-
-  initializeInput() {
-    if (!(this.inputEl instanceof HTMLInputElement)) {
-      throw new Error("Failed to get a handle for inputEl.");
-    }
-
-    this.inputEl.min = String(this.min);
-    this.inputEl.max = String(this.max);
-
+    this.inputEl = notNull(this.shadowRoot.querySelector("input"));
     this.inputEl.addEventListener(
       "change",
-      () => this.setValue(Number(this.inputEl.value)),
-      { passive: true }
+      () => {
+        this.dispatchEvent(
+          new MessageEvent("change", {
+            data: { value: this.value },
+            bubbles: true,
+          })
+        );
+      },
+      {
+        passive: true,
+      }
     );
 
-    this.sliderEl.addEventListener("wheel", (e) => {
+    bindAttributes(this, AfixRangeSlider.observedAttributes);
+    /** @type {string} */ this.name;
+    /** @type {string} */ this.value;
+    /** @type {string} */ this.comparisonValue;
+    /** @type {string} */ this.aspect;
+    /** @type {string} */ this.step;
+    /** @type {string} */ this.min;
+    /** @type {string} */ this.max;
+
+    this.inputEl.value = this.value;
+    this.inputEl.min = this.min;
+    this.inputEl.max = this.max;
+    this.inputEl.step = this.step;
+    this.inputEl.name = this.name;
+
+    this.attributeChangedCallback("comparison-value", "", this.comparisonValue);
+
+    this.addEventListener("wheel", (e) => {
       e.preventDefault();
-      let delta;
+      this.handleMove(e.deltaX, e.deltaY, this.getContext());
+    });
 
-      if (this.aspect === "vertical") {
-        delta = (e.deltaY * this.step) / (this.deltaYMax || 1);
-      } else {
-        delta = (-e.deltaX * this.step) / (this.deltaXMax || 1);
-      }
+    this.addEventListener("touchstart", (e) => e.preventDefault());
 
-      this.setValue((this.value || 0) + delta * (this.max - this.min));
+    this.addEventListener("pointerdown", (startEvent) => {
+      startEvent.preventDefault();
+      this.setPointerCapture(startEvent.pointerId);
+
+      this.addEventListener(
+        "lostpointercapture",
+        () => window.removeEventListener("pointermove", handleMove),
+        { passive: true, once: true }
+      );
+
+      const ctx = this.getContext();
+
+      /**
+       *
+       * @param {PointerEvent} e
+       */
+      const handleMove = (e) => {
+        this.handleMove(
+          startEvent.clientX - e.clientX,
+          startEvent.clientY - e.clientY,
+          ctx
+        );
+      };
+
+      window.addEventListener("pointermove", handleMove, { passive: true });
     });
   }
 
-  initializeSlider() {
-    const positionIndicatorStyle =
-      this.getAttribute("position-indicator") || "bar";
-
-    if (positionIndicatorStyle === "line") {
-      this.trackEl.classList.add("--line");
-    } else {
-      this.trackEl.classList.add("--bar");
-    }
-
-    /** @type {boolean} */
-    let hasPointerCapture = false;
-    /** @type {number | null} */
-    this.lastX = null;
-    /** @type {number | null} */
-    this.lastY = null;
-
-    this.sliderEl.addEventListener("touchstart", (e) => e.preventDefault());
-
-    this.sliderEl.addEventListener(
-      "pointerdown",
-      (e) => {
-        if (e.button === 2) return;
-        this.sliderEl.setPointerCapture(e.pointerId);
-        hasPointerCapture = true;
-        this.lastX = e.x;
-        this.lastY = e.y;
-      },
-      { passive: true }
-    );
-
-    window.addEventListener(
-      "pointermove",
-      (e) => {
-        if (
-          hasPointerCapture &&
-          typeof this.lastX === "number" &&
-          typeof this.lastY === "number"
-        ) {
-          const deltaX = this.lastX - e.x;
-          const deltaY = this.lastY - e.y;
-
-          this.lastX = e.x;
-          this.lastY = e.y;
-
-          let delta;
-
-          if (this.aspect === "vertical") {
-            delta = deltaY / (this.deltaYMax || 1);
-          } else {
-            delta = -deltaX / (this.deltaXMax || 1);
-          }
-
-          this.setValue((this.value || 0) + delta * (this.max - this.min));
-        }
-      },
-      { passive: true }
-    );
-
-    this.sliderEl.addEventListener(
-      "lostpointercapture",
-      () => {
-        this.lastX = null;
-        this.lastY = null;
-        hasPointerCapture = false;
-      },
-      { passive: true }
-    );
+  /**
+   * @typedef {Object} Context
+   * @property {number} width
+   * @property {number} height
+   * @property {number} min
+   * @property {number} max
+   * @property {number} step
+   * @property {number} value
+   *
+   * @returns {Context}
+   */
+  getContext() {
+    const { width, height } = this.getBoundingClientRect();
+    const min = Number(this.min);
+    const max = Number(this.max);
+    const value = Number(this.value);
+    const step = (this.step || "1").replace(".", "").length - 1;
+    return { height, width, min, max, step, value };
   }
 
   /**
    *
-   * @param {number} value
+   * @param {number} dx
+   * @param {number} dy
+   * @param {Context} context
    */
-  setValue(value) {
-    const boundedValue = max(this.min, min(this.max, value));
-    const roundedValue = round(boundedValue);
+  handleMove(dx, dy, { height, width, min, max, step, value }) {
+    const [length, delta] = height > width ? [height, dy] : [width, -dx];
 
-    if (this.value === boundedValue) {
-      return;
-    }
+    const newPixelPosition = (length / max) * value + delta;
 
-    this.inputEl.value = String(roundedValue);
-    this.sliderEl.style.setProperty(
-      "--afix-value",
-      ((boundedValue - this.min) / (this.max - this.min)) * 100 + "%"
-    );
-    /** @type {number} */
-    this.value = boundedValue;
-    this.setAttribute("value", String(boundedValue));
-    const fractionDigits =
-      this.step % 1 > 0 ? String(this.step).replace(/^.+?\./, "").length : 0;
+    this.value = Number(Math.max(
+      min,
+      Math.min(max, (newPixelPosition / length) * max)
+    ).toFixed(step));
+
+    this.inputEl.value = this.value;
+
     this.dispatchEvent(
-      new MessageEvent("change", {
-        bubbles: true,
-        data: {
-          value: Number(boundedValue.toFixed(fractionDigits)),
-          rawValue: boundedValue,
-        },
-      })
+      new MessageEvent("change", { data: { value: this.value }, bubbles: true })
     );
-  }
-
-  /**
-   *
-   * @param {number} shadowValue
-   */
-  setShadowValue(shadowValue) {
-    this.shadowValue = shadowValue;
-    this.sliderEl.style.setProperty(
-      "--afix-shadow-value",
-      Math.min(100, ((shadowValue - this.min) / (this.max - this.min)) * 100) +
-        "%"
-    );
-  }
-
-  /**
-   *
-   * @param {*} name
-   */
-  setName(name) {
-    this.name = name;
-    this.inputEl.name = name;
   }
 
   static get observedAttributes() {
-    return ["value", "shadow-value", "min", "max", "step", "name"];
+    return ["value", "comparison-value", "min", "max", "step", "name"];
   }
 
   /**
@@ -346,17 +271,14 @@ export class AfixRangeSlider extends HTMLElement {
    * @param {string} newValue
    */
   attributeChangedCallback(name, _, newValue) {
-    switch (name) {
-      case "value":
-        this.setValue(Number(newValue));
-        break;
-      case "shadow-value":
-        this.setShadowValue(Number(newValue));
-        break;
-      case "name": {
-        this.setName(newValue);
-        break;
-      }
+    if (name === "value" || name === "comparison-value") {
+      this.style.setProperty(
+        "--" + name,
+        Math.max(
+          0,
+          Math.min(100, ((+newValue - +this.min) / +this.max) * 100)
+        ) + "%"
+      );
     }
   }
 }
@@ -385,4 +307,33 @@ function html(tagString) {
 function notNull(value, error = new Error()) {
   if (value === null) throw error;
   return value;
+}
+
+/**
+ * ensures that the target's instance value and the attribute value are the same
+ * @param {HTMLElement} target
+ * @param {string[]} names
+ */
+function bindAttributes(target, names) {
+  for (const name of names) {
+    Object.defineProperty(target, toCamelCase(name), {
+      get() {
+        if (name === 'name') {
+          return target.getAttribute(name);
+        }
+        return Number(target.getAttribute(name));
+      },
+      set(value) {
+        target.setAttribute(name, value);
+      },
+    });
+  }
+}
+
+/**
+ *
+ * @param {string} value
+ */
+function toCamelCase(value) {
+  return value.replace(/([ -][a-z0-9])/g, (v) => v[1].toUpperCase());
 }

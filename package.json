@@ -4,7 +4,6 @@
   "description": "An accessible and flexible range slider web component",
   "main": "src/Component.js",
   "module": "src/Component.js",
-  "type": "module",
   "scripts": {
     "test": "jest",
     "test:e2e": "jest --preset jest-playwright-preset",
@@ -23,19 +22,24 @@
   "license": "MIT",
   "devDependencies": {
     "@babel/plugin-transform-modules-commonjs": "^7.10.4",
-    "@types/jest": "^26.0.10",
+    "@babel/preset-typescript": "^7.10.4",
+    "@types/jest": "^26.0.14",
+    "@types/jest-image-snapshot": "^4.1.1",
     "@types/resize-observer-browser": "^0.1.3",
     "babel-jest": "^26.3.0",
-    "eslint": "^7.7.0",
+    "eslint": "^7.9.0",
     "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-jest-playwright": "^0.2.1",
-    "jest": "^26.4.0",
+    "jest": "^26.4.2",
+    "jest-image-snapshot": "^4.2.0",
     "jest-playwright": "0.0.1",
+    "jest-playwright-jsdom": "0.0.4",
     "jest-playwright-preset": "^1.3.1",
     "npm-run-all": "^4.1.5",
-    "playwright": "^1.3.0",
-    "prettier": "^2.0.5",
-    "stylelint": "^13.6.1",
+    "playwright": "^1.4.1",
+    "playwright-webkit": "^1.4.1",
+    "prettier": "^2.1.2",
+    "stylelint": "^13.7.1",
     "stylelint-config-prettier": "^8.0.2",
     "stylelint-config-standard": "^20.0.0",
     "stylelint-no-unsupported-browser-features": "^4.0.0",
@@ -68,6 +72,9 @@
     "> 1%"
   ],
   "babel": {
+    "presets": [
+      "@babel/preset-typescript"
+    ],
     "env": {
       "test": {
         "plugins": [
@@ -75,5 +82,8 @@
         ]
       }
     }
+  },
+  "jest": {
+    "preset": "jest-playwright-jsdom"
   }
 }

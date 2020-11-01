@@ -13,7 +13,10 @@ An accessible and flexible range slider web component.
 Via a script tag,
 
 ```html
-<script src="https://cdn.skypack.dev/afix-range-slider@latest" type="module"></script>
+<script
+  src="https://cdn.skypack.dev/afix-range-slider@latest"
+  type="module"
+></script>
 ```
 
 Or install with
@@ -36,21 +39,21 @@ This component depends on the following features.
 
 - [CSS Custom Properties](https://caniuse.com/#feat=custom-elementsv1)
 - [Web Components](https://caniuse.com/#feat=custom-elementsv1)
-- [JavaScript modules](https://caniuse.com/#feat=es6-module) *Optional*
+- [JavaScript modules](https://caniuse.com/#feat=es6-module) _Optional_
 
 All modern browsers have supported these features for some time. If you need IE support you will need to look elsewhere.
 
 ## Attributes
 
-| Name               | Type            | Description                                                                                                    |
-| ------------------ | --------------- | -------------------------------------------------------------------------------------------------------------- |
-| value              | number          | The current value of the input                                                                                 |
-| shadow-value       | number          | A secondary value shown with the value. `color` should be set to something semi-transparent with this setting. |
-| min                | number          | The minimum permitted value                                                                                    |
-| max                | number          | The maximum permitted value                                                                                    |
-| step               | number          | The stepping interval, used both for user interface and validation purposes                                    |
-| position-indicator | _bar_ or _line_ | The style of the position indicator, either a solid bar or a line.                                             |
-| horizontal         | boolean         | The input should be displayed horizontally. Vertical by default                                                |
+| Name         | Type    | Description                                                                                                    |
+| ------------ | ------- | -------------------------------------------------------------------------------------------------------------- |
+| value        | number  | The current value of the input                                                                                 |
+| shadow-value | number  | A secondary value shown with the value. `color` should be set to something semi-transparent with this setting. |
+| min          | number  | The minimum permitted value                                                                                    |
+| max          | number  | The maximum permitted value                                                                                    |
+| step         | number  | The stepping interval, used both for user interface and validation purposes                                    |
+| line-style   | boolean | When set, the position will be shown as a line. Bar by default                                                 |
+| horizontal   | boolean | The input should be displayed horizontally. Vertical by default                                                |
 
 ### CSS Custom Properties
 
@@ -66,6 +69,7 @@ Remember **all custom properties are prefixed with the component name**. e.g. `b
 | background-color       | rgba(0, 0, 0, 0.8)                 | `background-color` for the range element             |
 | background-image       | none                               | `background-image` for the range element             |
 | border                 | none                               | `border` for the range element                       |
+| comparison-label-color | white                              |                                                      |
 
 ## Events
 
