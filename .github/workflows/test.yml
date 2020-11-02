@@ -20,6 +20,8 @@ jobs:
       - name: Get dependencies
         run: |
           go get github.com/lukechannings/hammer/cmd/hammer
+          curl https://iterm2.com/utilities/imgcat -o /usr/local/bin/imgcat
+          chmod +x ./usr/local/bin/imgcat
       - uses: actions/checkout@v2
 
       - uses: actions/setup-node@v1
@@ -30,9 +32,11 @@ jobs:
 
       - name: imgcat test
         run: |
-          curl -O https://iterm2.com/utilities/imgcat
-          chmod +x ./imgcat
+          
           ./imgcat src/__image_snapshots__/*
 
-#       - name: Install dependencies and run tests
-#         run: npm install && npm test
+      - name: Install dependencies and run tests
+        run: |
+          npm install
+          npm test
+          if [[ $? != 0 ]]; then imgcat src/__image_snapshots__/__diff_output__/*; fi
