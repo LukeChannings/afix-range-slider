@@ -19,9 +19,10 @@ jobs:
 
       - name: Get dependencies
         run: |
+          echo $PATH
           go get github.com/lukechannings/hammer/cmd/hammer
-          curl https://iterm2.com/utilities/imgcat -o /usr/local/bin/imgcat
-          chmod +x ./usr/local/bin/imgcat
+          curl https://iterm2.com/utilities/imgcat -o ~/go/bin/imgcat
+          chmod +x ~/go/bin/imgcat
       - uses: actions/checkout@v2
 
       - uses: actions/setup-node@v1
