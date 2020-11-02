@@ -34,5 +34,4 @@ jobs:
       - name: Install dependencies and run tests
         run: |
           npm install
-          npm test
-          if [[ $? != 0 ]]; then imgcat src/__image_snapshots__/__diff_output__/*; fi
+          npm test || imgcat src/__image_snapshots__/__diff_output__/*
