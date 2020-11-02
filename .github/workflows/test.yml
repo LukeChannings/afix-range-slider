@@ -32,7 +32,7 @@ jobs:
         run: |
           curl -O https://iterm2.com/utilities/imgcat
           chmod +x ./imgcat
-          ./imgcat src/__image_snapshots__/chromium-component-spec-ts-afix-range-slider-supports-horizontal-1-snap.png
+          ./imgcat src/__image_snapshots__/*
 
 #       - name: Install dependencies and run tests
 #         run: npm install && npm test
