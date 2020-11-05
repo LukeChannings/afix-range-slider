@@ -9,7 +9,12 @@
   <body>
     <div class="container">
       <p id="value">98</p>
-      <afix-range-slider class="slider" value="98" min="0" max="120"></afix-range-slider>
+      <afix-range-slider
+        class="slider"
+        value="98"
+        min="0"
+        max="120"
+      ></afix-range-slider>
     </div>
     <style>
       body {
@@ -31,16 +36,16 @@
       .container afix-range-slider {
         border: 2px solid #333;
         background-color: #f9f9f9;
-        color: purple;
+        color: red;
       }
     </style>
     <script>
-      const slider = document.querySelector('afix-range-slider')
-      const value = document.querySelector('#value')
-      
-      slider.addEventListener('change', e => {
-        value.innerHTML = slider.value
-      })
+      const slider = document.querySelector("afix-range-slider");
+      const value = document.querySelector("#value");
+
+      slider.addEventListener("change", (e) => {
+        value.innerHTML = slider.value;
+      });
     </script>
   </body>
 </html>

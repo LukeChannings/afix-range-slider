@@ -5,10 +5,11 @@
   "main": "src/Component.js",
   "module": "src/Component.js",
   "scripts": {
-    "test": "jest",
-    "test:e2e": "jest --preset jest-playwright-preset",
+    "test": "run-p test:*",
+    "test:unit": "jest",
+    "test:e2e": "env TEST_E2E=1 jest",
     "lint": "run-p lint:*",
-    "lint:js": "eslint src",
+    "lint:js": "eslint .",
     "lint:css": "stylelint --syntax html '**/*.js'",
     "lint:ts": "tsc",
     "lint:style": "prettier --ignore-path .gitignore  '**/*.{js,css,json,html,yaml}' --check",
@@ -16,40 +17,42 @@
   },
   "keywords": [
     "Afix",
-    "Web Component"
+    "range input",
+    "range slider"
   ],
   "author": "Luke Channings <contact@lukechannings.com>",
   "license": "MIT",
   "devDependencies": {
-    "@babel/plugin-transform-modules-commonjs": "^7.10.4",
-    "@babel/preset-typescript": "^7.10.4",
-    "@types/jest": "^26.0.14",
-    "@types/jest-image-snapshot": "^4.1.1",
-    "@types/resize-observer-browser": "^0.1.3",
-    "babel-jest": "^26.3.0",
-    "eslint": "^7.9.0",
-    "eslint-config-prettier": "^6.11.0",
+    "@babel/plugin-transform-modules-commonjs": "^7.12.1",
+    "@babel/preset-typescript": "^7.12.1",
+    "@types/jest": "^26.0.15",
+    "@types/jest-image-snapshot": "^4.1.3",
+    "@types/resize-observer-browser": "^0.1.4",
+    "babel-jest": "^26.6.3",
+    "eslint": "^7.12.1",
+    "eslint-config-prettier": "^6.15.0",
     "eslint-plugin-jest-playwright": "^0.2.1",
-    "jest": "^26.4.2",
+    "jest": "^26.6.3",
     "jest-image-snapshot": "^4.2.0",
     "jest-playwright": "0.0.1",
     "jest-playwright-jsdom": "0.0.4",
-    "jest-playwright-preset": "^1.3.1",
+    "jest-playwright-preset": "^1.4.0",
     "npm-run-all": "^4.1.5",
-    "playwright": "^1.4.1",
-    "playwright-webkit": "^1.4.1",
+    "playwright": "^1.5.2",
+    "playwright-webkit": "^1.5.2",
     "prettier": "^2.1.2",
-    "stylelint": "^13.7.1",
+    "stylelint": "^13.7.2",
     "stylelint-config-prettier": "^8.0.2",
     "stylelint-config-standard": "^20.0.0",
-    "stylelint-no-unsupported-browser-features": "^4.0.0",
-    "typescript": "^3.9.7"
+    "stylelint-no-unsupported-browser-features": "^4.1.4",
+    "typescript": "^4.0.5"
   },
   "eslintConfig": {
     "env": {
       "browser": true,
       "es2020": true,
-      "jest": true
+      "jest": true,
+      "node": true
     },
     "extends": [
       "eslint:recommended",
@@ -82,8 +85,5 @@
         ]
       }
     }
-  },
-  "jest": {
-    "preset": "jest-playwright-jsdom"
   }
 }

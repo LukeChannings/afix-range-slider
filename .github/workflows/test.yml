@@ -34,4 +34,5 @@ jobs:
       - name: Install dependencies and run tests
         run: |
           npm install
-          npm test || imgcat src/__image_snapshots__/__diff_output__/*
+          npm run lint
+          npm test

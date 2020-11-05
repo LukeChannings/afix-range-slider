@@ -3,8 +3,8 @@
     "target": "ES2020",
     "module": "es2020",
     "allowJs": true,
-    "checkJs": true,
-    "emitDeclarationOnly": true,
+    "checkJs": false,
+    "noEmit": true,
     "declaration": true,
     "strict": true,
     "skipLibCheck": true,
@@ -12,10 +12,7 @@
     "resolveJsonModule": true,
     "moduleResolution": "Node",
     "allowSyntheticDefaultImports": true,
-    "types": [
-      "jest-playwright-preset",
-      "expect-playwright",
-      "@types/jest"
-    ]
-  }
+    "types": ["jest-playwright-preset", "expect-playwright", "@types/jest"]
+  },
+  "exclude": ["coverage"]
 }
