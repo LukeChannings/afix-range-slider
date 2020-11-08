@@ -1,11 +1,14 @@
-import { toMatchImageSnapshot } from 'jest-image-snapshot'
+import {
+  MatchImageSnapshotOptions,
+  toMatchImageSnapshot,
+} from 'jest-image-snapshot'
 
 expect.extend({ toMatchImageSnapshot })
 
 describe('afix-range-slider', () => {
-  const screenshotOptions = {
+  const screenshotOptions: MatchImageSnapshotOptions = {
     noColors: true,
-    dumpDiffToConsole: 'inline',
+    dumpDiffToConsole: ('inline' as unknown) as boolean,
     failureThreshold: 1,
     failureThresholdType: 'percent',
     customSnapshotIdentifier: ({

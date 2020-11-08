@@ -1,18 +1,17 @@
-import { MatchImageSnapshotOptions, toMatchImageSnapshot } from 'jest-image-snapshot'
+import {
+  MatchImageSnapshotOptions,
+  toMatchImageSnapshot,
+} from 'jest-image-snapshot'
 
 expect.extend({ toMatchImageSnapshot })
 
 describe('value label test', () => {
   const screenshotOptions: MatchImageSnapshotOptions = {
     noColors: true,
-    dumpDiffToConsole: 'inline',
+    // HACK: Need to update the types for jest-image-snapshot
+    dumpDiffToConsole: ('inline' as unknown) as boolean,
     failureThreshold: 1,
     failureThresholdType: 'percent',
-    // customSnapshotIdentifier: ({
-    //   defaultIdentifier,
-    // }: {
-    //   defaultIdentifier: string
-    // }) => `${defaultIdentifier}-${browserName}`,
   }
 
   beforeEach(async () => {
@@ -29,7 +28,7 @@ describe('value label test', () => {
     ).toBe('60')
 
     expect(
-      await(await page.$('.container'))!.screenshot()
+      await (await page.$('.container'))!.screenshot()
     ).toMatchImageSnapshot(screenshotOptions)
 
     await page.mouse.move(x + width / 2, y + 1)
@@ -45,6 +44,8 @@ describe('value label test', () => {
       await page.$eval('#value', (el: HTMLInputElement) => el.innerHTML)
     ).toBe('0')
 
-    expect(await (await page.$('.container'))!.screenshot()).toMatchImageSnapshot(screenshotOptions)
+    expect(
+      await (await page.$('.container'))!.screenshot()
+    ).toMatchImageSnapshot(screenshotOptions)
   })
 })
