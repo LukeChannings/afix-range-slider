@@ -1,4 +1,4 @@
-import { assert } from "./Component.utils";
+import { assert } from './Component.utils'
 
 export const template = html`
   <template>
@@ -19,6 +19,13 @@ export const template = html`
         background-color: #c3d5df;
         box-sizing: border-box;
         position: relative;
+      }
+
+      :host(:focus),
+      :host(:focus-within) {
+        outline-color: -webkit-focus-ring-color;
+        outline-style: auto;
+        outline-width: 5px;
       }
 
       :host([horizontal]) {
@@ -60,13 +67,6 @@ export const template = html`
         overflow: hidden;
       }
 
-      :host(:focus),
-      :host(:focus-within) {
-        outline-color: -webkit-focus-ring-color;
-        outline-style: auto;
-        outline-width: 5px;
-      }
-
       .track {
         position: absolute;
         width: 100%;
@@ -81,13 +81,22 @@ export const template = html`
         box-shadow: 2px 2px transparent;
       }
 
-      :host(:not([line-style])) .track[part="value"] {
+      .track[part='comparison-value'] {
+        background-color: var(--a-range-slider-comparison-value-color, #fd892e);
+        transform: translateY(calc(100% - var(--comparison-value)));
+      }
+
+      .track[part='value'] {
+        transform: translateY(calc(100% - var(--value)));
+      }
+
+      :host(:not([line-style])) .track[part='value'] {
         background-color: var(--afix-range-slider-value-color, currentColor);
       }
 
-      :host([line-style]) .track[part="value"]::after {
+      :host([line-style]) .track[part='value']::after {
         position: absolute;
-        content: "";
+        content: '';
         display: block;
         background: var(--afix-range-slider-track-line-color, currentColor);
         width: 100%;
@@ -96,7 +105,7 @@ export const template = html`
         top: -1px;
       }
 
-      :host([horizontal][line-style]) .track[part="value"]::after {
+      :host([horizontal][line-style]) .track[part='value']::after {
         top: 0;
         left: auto;
         right: -1px;
@@ -104,25 +113,15 @@ export const template = html`
         width: 2px;
       }
 
-      :host(:not([comparison-value])) .track[part="comparison-value"] {
+      :host(:not([comparison-value])) .track[part='comparison-value'] {
         display: none;
       }
 
-      .track[part="comparison-value"] {
-        background-color: var(--a-range-slider-comparison-value-color, #fd892e);
-      }
-
-      .track[part="value"] {
-        transform: translateY(calc(100% - var(--value)));
-      }
-      :host([horizontal]) .track[part="value"] {
+      :host([horizontal]) .track[part='value'] {
         transform: translateX(calc(-100% + var(--value)));
       }
 
-      .track[part="comparison-value"] {
-        transform: translateY(calc(100% - var(--comparison-value)));
-      }
-      :host([horizontal]) .track[part="comparison-value"] {
+      :host([horizontal]) .track[part='comparison-value'] {
         transform: translateX(calc(-100% + var(--comparison-value)));
       }
 
@@ -137,11 +136,11 @@ export const template = html`
       }
     </style>
   </template>
-`;
+`
 
 function html(tagString: TemplateStringsArray): HTMLTemplateElement {
-  const div = document.createElement("div");
-  div.innerHTML = String.raw(tagString);
-  assert(div.firstElementChild instanceof HTMLTemplateElement);
-  return div.firstElementChild;
+  const div = document.createElement('div')
+  div.innerHTML = String.raw(tagString)
+  assert(div.firstElementChild instanceof HTMLTemplateElement)
+  return div.firstElementChild
 }

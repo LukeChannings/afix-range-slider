@@ -1,5 +1,5 @@
-describe("e2e", () => {
-  describe("animated-icon", () => {
-    test("non", () => expect(true).toBe(true));
-  });
-});
+describe('e2e', () => {
+  describe('animated-icon', () => {
+    test('non', () => expect(true).toBe(true))
+  })
+})

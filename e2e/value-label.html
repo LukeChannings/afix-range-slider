@@ -17,42 +17,6 @@
         tabindex="-1"
       ></afix-range-slider>
     </div>
-    <div class="container">
-      <p id="value">98</p>
-      <afix-range-slider
-        value="60"
-        min="0"
-        max="120"
-        tabindex="-1"
-      ></afix-range-slider>
-    </div>
-    <div class="container">
-      <p id="value">98</p>
-      <afix-range-slider
-        value="60"
-        min="0"
-        max="120"
-        tabindex="-1"
-      ></afix-range-slider>
-    </div>
-    <div class="container">
-      <p id="value">98</p>
-      <afix-range-slider
-        value="60"
-        min="0"
-        max="120"
-        tabindex="-1"
-      ></afix-range-slider>
-    </div>
-    <div class="container">
-      <p id="value">98</p>
-      <afix-range-slider
-        value="60"
-        min="0"
-        max="120"
-        tabindex="-1"
-      ></afix-range-slider>
-    </div>
     <style>
       body {
         padding: 1rem;
@@ -65,48 +29,28 @@
       }
 
       .container p {
-        font-family: system-ui;
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
         font-size: 1.5rem;
         color: #333;
         min-width: 5rem;
       }
 
-      @keyframes HeatingIndicator {
-        0% {
-          color: hsl(300, 55%, 60%, 90%);
-          border-color: hsl(300, 55%, 60%, 90%);
-        }
-        50% {
-          color: hsl(200, 35%, 60%, 70%);
-          border-color: hsl(200, 35%, 60%, 70%);
-        }
-        100% {
-          color: hsl(300, 55%, 60%, 90%);
-          border-color: hsl(300, 55%, 60%, 90%);
-        }
-      }
-
       .container afix-range-slider {
         border: 2px solid #333;
         background-color: #f9f9f9;
-        animation: HeatingIndicator 3s infinite;
         color: #333;
         width: 5rem;
         height: 15rem;
         border-radius: 1rem;
       }
-
-      .container:nth-child(odd) afix-range-slider {
-        animation-delay: 1s;
-      }
     </style>
     <script>
-      const slider = document.querySelector("afix-range-slider");
-      const value = document.querySelector("#value");
+      const slider = document.querySelector('afix-range-slider')
+      const value = document.querySelector('#value')
 
-      slider.addEventListener("change", (e) => {
-        value.innerHTML = e.data.value;
-      });
+      slider.addEventListener('change', e => {
+        value.innerHTML = e.data.value
+      })
     </script>
   </body>
 </html>

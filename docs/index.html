@@ -156,25 +156,25 @@
       </div>
       <div class="color__display js-rgb-display"></div>
       <script type="module">
-        const redSlider = document.querySelector(".js-red-slider");
-        const greenSlider = document.querySelector(".js-green-slider");
-        const blueSlider = document.querySelector(".js-blue-slider");
+        const redSlider = document.querySelector('.js-red-slider')
+        const greenSlider = document.querySelector('.js-green-slider')
+        const blueSlider = document.querySelector('.js-blue-slider')
 
-        const colorDisplay = document.querySelector(".js-rgb-display");
+        const colorDisplay = document.querySelector('.js-rgb-display')
 
-        redSlider.addEventListener("change", updateColor);
-        greenSlider.addEventListener("change", updateColor);
-        blueSlider.addEventListener("change", updateColor);
+        redSlider.addEventListener('change', updateColor)
+        greenSlider.addEventListener('change', updateColor)
+        blueSlider.addEventListener('change', updateColor)
 
         function updateColor() {
-          const red = redSlider.value;
-          const green = greenSlider.value;
-          const blue = blueSlider.value;
+          const red = redSlider.value
+          const green = greenSlider.value
+          const blue = blueSlider.value
 
-          colorDisplay.style.backgroundColor = `rgb(${red}, ${green}, ${blue})`;
+          colorDisplay.style.backgroundColor = `rgb(${red}, ${green}, ${blue})`
         }
 
-        updateColor();
+        updateColor()
       </script>
     </div>
     <div class="page color" id="hsl">
@@ -211,30 +211,30 @@
       </div>
       <div class="color__display js-hsl-display"></div>
       <script type="module">
-        const hueSlider = document.querySelector(".js-hue-slider");
-        const saturationSlider = document.querySelector(".js-sat-slider");
-        const lightnessSlider = document.querySelector(".js-lightness-slider");
+        const hueSlider = document.querySelector('.js-hue-slider')
+        const saturationSlider = document.querySelector('.js-sat-slider')
+        const lightnessSlider = document.querySelector('.js-lightness-slider')
 
-        const colorDisplay = document.querySelector(".js-hsl-display");
+        const colorDisplay = document.querySelector('.js-hsl-display')
 
-        hueSlider.addEventListener("change", updateColor);
-        saturationSlider.addEventListener("change", updateColor);
-        lightnessSlider.addEventListener("change", updateColor);
+        hueSlider.addEventListener('change', updateColor)
+        saturationSlider.addEventListener('change', updateColor)
+        lightnessSlider.addEventListener('change', updateColor)
 
         function updateColor() {
-          const hue = hueSlider.value;
-          const saturation = saturationSlider.value;
-          const lightness = lightnessSlider.value;
+          const hue = hueSlider.value
+          const saturation = saturationSlider.value
+          const lightness = lightnessSlider.value
 
-          hueSlider.style.color = `hsla(${hue}, 100%, 50%, 0.2)`;
+          hueSlider.style.color = `hsla(${hue}, 100%, 50%, 0.2)`
           saturationSlider.style.setProperty(
-            "--afix-range-slider-background-image",
+            '--afix-range-slider-background-image',
             `linear-gradient(-90deg, hsl(${hue}, 100%, 50%), hsl(${hue}, 0%, 50%))`
-          );
-          colorDisplay.style.backgroundColor = `hsl(${hue}, ${saturation}%, ${lightness}%)`;
+          )
+          colorDisplay.style.backgroundColor = `hsl(${hue}, ${saturation}%, ${lightness}%)`
         }
 
-        updateColor();
+        updateColor()
       </script>
     </div>
     <div class="page color" id="complex">
@@ -301,35 +301,35 @@
         ></afix-range-slider>
       </div>
       <script type="module">
-        const tempEl = document.querySelector(".js-temp");
-        const tempValueEl = document.querySelector(".js-temp-value");
-        tempEl.addEventListener("change", (e) => {
-          const value = e.data.value;
+        const tempEl = document.querySelector('.js-temp')
+        const tempValueEl = document.querySelector('.js-temp-value')
+        tempEl.addEventListener('change', e => {
+          const value = e.data.value
           if (value >= 110) {
-            tempValueEl.innerHTML = "On";
-            tempEl.setAttribute("shadow-value", "110");
+            tempValueEl.innerHTML = 'On'
+            tempEl.setAttribute('shadow-value', '110')
           } else if (value <= 80) {
-            tempValueEl.innerHTML = "Off";
-            tempEl.setAttribute("shadow-value", "80");
+            tempValueEl.innerHTML = 'Off'
+            tempEl.setAttribute('shadow-value', '80')
           } else {
-            tempValueEl.innerHTML = value;
-            tempEl.setAttribute("shadow-value", "93");
+            tempValueEl.innerHTML = value
+            tempEl.setAttribute('shadow-value', '93')
           }
-        });
+        })
 
-        const doseEl = document.querySelector(".js-dose-value");
-        document.querySelector(".js-dose").addEventListener("change", (e) => {
-          const value = e.data.value.toFixed(1);
+        const doseEl = document.querySelector('.js-dose-value')
+        document.querySelector('.js-dose').addEventListener('change', e => {
+          const value = e.data.value.toFixed(1)
 
-          doseEl.innerHTML = value;
-        });
+          doseEl.innerHTML = value
+        })
 
-        const grindEl = document.querySelector(".js-grind-value");
-        document.querySelector(".js-grind").addEventListener("change", (e) => {
-          const value = e.data.value;
+        const grindEl = document.querySelector('.js-grind-value')
+        document.querySelector('.js-grind').addEventListener('change', e => {
+          const value = e.data.value
 
-          grindEl.innerHTML = value;
-        });
+          grindEl.innerHTML = value
+        })
       </script>
     </div>
   </body>
