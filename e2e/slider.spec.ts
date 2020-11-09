@@ -11,6 +11,7 @@ describe('afix-range-slider', () => {
     dumpDiffToConsole: ('inline' as unknown) as boolean,
     failureThreshold: 1,
     failureThresholdType: 'percent',
+    allowSizeMismatch: true,
     customSnapshotIdentifier: ({
       defaultIdentifier,
     }: {
