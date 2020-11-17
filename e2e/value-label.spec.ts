@@ -11,6 +11,7 @@ describe('value label test', () => {
     // HACK: Need to update the types for jest-image-snapshot
     dumpDiffToConsole: ('inline' as unknown) as boolean,
     failureThreshold: 1,
+    failureThresholdType: 'percent',
     allowSizeMismatch: true,
   }
 
