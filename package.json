@@ -5,6 +5,7 @@
   "main": "src/Component.js",
   "module": "src/Component.js",
   "scripts": {
+    "start": "hammer serve -p 4321 src e2e",
     "test": "run-p test:*",
     "test:unit": "jest",
     "test:e2e": "env TEST_E2E=1 jest",
