@@ -1,24 +1,4 @@
-import {
-  MatchImageSnapshotOptions,
-  toMatchImageSnapshot,
-} from 'jest-image-snapshot'
-
-expect.extend({ toMatchImageSnapshot })
-
 describe('afix-range-slider', () => {
-  const screenshotOptions: MatchImageSnapshotOptions = {
-    noColors: true,
-    dumpDiffToConsole: ('inline' as unknown) as boolean,
-    failureThreshold: 1,
-    failureThresholdType: 'percent',
-    allowSizeMismatch: true,
-    customSnapshotIdentifier: ({
-      defaultIdentifier,
-    }: {
-      defaultIdentifier: string
-    }) => `${browserName}-${defaultIdentifier}`,
-  }
-
   beforeEach(async () => {
     await page.goto('http://localhost:8833/slider.html')
   })
@@ -56,30 +36,6 @@ describe('afix-range-slider', () => {
       el => (el as HTMLInputElement).value
     )
     expect(value).toBe('75')
-  })
-
-  it('supports line mode', async () => {
-    const sliderEl = await page.$('afix-range-slider')
-
-    page.$eval('afix-range-slider', el => {
-      el.setAttribute('line-style', '')
-    })
-
-    expect(sliderEl).toBeTruthy()
-
-    expect(await sliderEl!.screenshot()).toMatchImageSnapshot(screenshotOptions)
-  })
-
-  it('supports horizontal', async () => {
-    const sliderEl = await page.$('afix-range-slider')
-
-    page.$eval('afix-range-slider', el => {
-      el.setAttribute('horizontal', '')
-    })
-
-    expect(sliderEl).toBeTruthy()
-
-    expect(await sliderEl!.screenshot()).toMatchImageSnapshot(screenshotOptions)
   })
 
   it('handles tabindex override', async () => {
