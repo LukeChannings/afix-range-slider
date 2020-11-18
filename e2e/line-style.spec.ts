@@ -21,7 +21,9 @@ describe('afix-range-slider', () => {
   it('supports line-style option', async () => {
     const sliderEl = await page.$('afix-range-slider')
 
-    expect(await page.$eval('afix-range-slider', el => el.hasAttribute('line-style'))).toBeTruthy()
+    expect(
+      await page.$eval('afix-range-slider', el => el.hasAttribute('line-style'))
+    ).toBeTruthy()
     expect(await sliderEl!.screenshot()).toMatchImageSnapshot(screenshotOptions)
   })
 })
