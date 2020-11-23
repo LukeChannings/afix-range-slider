@@ -1,6 +1,3 @@
-import { toMatchImageSnapshot } from 'jest-image-snapshot'
-import AfixRangeSlider from './Component'
-
 // assert - a function to ensure sanity of variables and type safety
 export function assert(
   condition: boolean,
@@ -8,25 +5,6 @@ export function assert(
 ): asserts condition {
   if (!condition) {
     throw new Error(errorMessage)
-  }
-}
-
-// bindAttributes - ensures that the target's instance value and the attribute value are the same
-export const bindAttributes = (
-  target: HTMLElement,
-  names: string[],
-  defaults: Record<string, string> = {}
-) => {
-  for (const name of names) {
-    Object.defineProperty(target, toCamelCase(name), {
-      get() {
-        const value = target.getAttribute(name)
-        return value === null ? defaults[name] : value
-      },
-      set(value) {
-        target.setAttribute(name, value)
-      },
-    })
   }
 }
 
@@ -44,5 +22,14 @@ export const getFractionDigits = (n: string) =>
   (n || '1').replace('.', '').length - 1
 
 // minmax - bounds a number between a minimum and maxium value
-export const minmax = (n: number, min = 0, max = 100) =>
-  Math.max(min, Math.min(max, n))
+export const minmax = (n: number, min = 0, max = 100, step?: number) => {
+  const boundedN = Math.max(min, Math.min(max, n))
+  return typeof step === 'undefined' ? boundedN : roundToStep(boundedN, step)
+}
+
+// roundToStep - rounds a number to a given stepping value
+// e.g. roundToStep(0.3, 0.5) -> 0.5; (4, 10) -> 1 ; (60, 100) -> 100
+export const roundToStep = (n: number, step: number = 1.0) => {
+  const inv = 1.0 / step;
+  return Math.round(n * inv) / inv;
+}

@@ -1,6 +1,5 @@
 import pkg from '../package.json'
 import { AfixRangeSlider } from './Component'
-import { assert } from './Component.utils'
 
 describe('afix-range-slider', () => {
   it("registers a component named the same as that package's name", () => {

@@ -1,9 +1,9 @@
 import { template } from './Component.template'
 import {
-  bindAttributes,
   assert,
   minmax,
   getFractionDigits,
+  roundToStep,
 } from './Component.utils'
 
 export interface AfixRangeSliderChange {
@@ -24,32 +24,22 @@ export class AfixRangeSlider extends HTMLElement {
   inputEl: HTMLInputElement
   inputSlotEl: HTMLSlotElement | null
 
-  value!: string
-  step!: string
-  min!: string
-  max!: string
-  name?: string
-  comparisonValue?: string
-
   static observedAttributes = [
     'value',
     'step',
     'min',
     'max',
-    'name',
     'comparison-value',
-    'horizontal',
+    'vertical',
   ]
 
   constructor() {
     super()
 
-    bindAttributes(this, AfixRangeSlider.observedAttributes, {
-      value: '100',
-      min: '0',
-      max: '100',
-      step: '1',
-    })
+    this.min = this.getAttribute('min') ?? '0'
+    const max = (this.max = this.getAttribute('max') ?? '100')
+    this.step = this.getAttribute('step') ?? '1'
+    this.value = this.getAttribute('value') ?? String(+max / 2)
 
     this.attachShadow({ mode: 'open' }).appendChild(
       template.content.cloneNode(true)
@@ -68,7 +58,12 @@ export class AfixRangeSlider extends HTMLElement {
       this.tabIndex = 0
     }
 
-    this.updateAccessibilityModel(this.getState())
+    this.updateAccessibilityModel({
+      min: this.min,
+      max: this.max,
+      value: this.value,
+      vertical: this.getAttribute('vertical'),
+    })
 
     this.addEventListener('wheel', this.handleWheel)
     this.addEventListener('pointerdown', this.handlePointer)
@@ -76,21 +71,78 @@ export class AfixRangeSlider extends HTMLElement {
     this.addEventListener('keydown', this.handleKeyboard)
   }
 
+  get value() {
+    return this.getAttribute('value')!
+  }
+
+  set value(newValue: string) {
+    const finalValue = String(
+      minmax(+this.max, +this.min, +newValue, +this.step)
+    )
+
+    this.setAttribute('value', finalValue)
+    this.style.setProperty('--value', finalValue + '%')
+  }
+
+  get step() {
+    return this.getAttribute('step')!
+  }
+
+  set step(newStep: string) {
+    this.setAttribute('step', newStep)
+  }
+
+  get min() {
+    return this.getAttribute('min')!
+  }
+
+  set min(newMin: string) {
+    this.setAttribute('min', newMin)
+  }
+
+  get max() {
+    return this.getAttribute('max')!
+  }
+
+  set max(newMax: string) {
+    this.setAttribute('max', newMax)
+  }
+
+  get comparisonValue() {
+    return this.getAttribute('comparison-value')!
+  }
+
+  set comparisonValue(newComparisonValue: string) {
+    this.setAttribute(
+      'comparison-value',
+      String(minmax(+this.max, +this.min, +newComparisonValue))
+    )
+  }
+
+  get vertical() {
+    return this.hasAttribute('vertical')
+  }
+
+  set vertical(newverticalValue: boolean) {
+    if (newverticalValue) {
+      this.setAttribute('vertical', '')
+    } else {
+      this.removeAttribute('vertical')
+    }
+  }
+
   attributeChangedCallback(name: string, _: string, newValue: string) {
-    if (name === 'value' || name === 'comparison-value') {
-      this.style.setProperty(
-        '--' + name,
-        minmax(
-          ((+newValue - +this.min) / +this.max) * 100,
-          +this.min,
-          +this.max
-        ) + '%'
-      )
+    if (
+      name === 'value' &&
+      (+newValue < +this.min ||
+        +newValue > +this.max ||
+        (
+          roundToStep(+newValue, +this.step) !== +this.value))
+    ) {
+      this.value = newValue
     }
 
-    if (name === 'horizontal') {
-      this.updateAccessibilityModel(this.getState())
-    }
+    this.updateAccessibilityModel({ [name]: newValue })
   }
 
   /**
@@ -117,7 +169,6 @@ export class AfixRangeSlider extends HTMLElement {
     if (this.min) newInput.min = this.min
     if (this.max) newInput.max = this.max
     if (this.step) newInput.step = this.step
-    if (this.name) newInput.name = this.name
 
     return newInput
   }
@@ -147,17 +198,19 @@ export class AfixRangeSlider extends HTMLElement {
 
   private handleWheel(e: WheelEvent) {
     e.preventDefault()
+
     this.handleMove(e.deltaX, e.deltaY, this.getState())
   }
 
   private handlePointer(startEvent: PointerEvent) {
     const state = this.getState()
-    const handlePointerMove = (e: PointerEvent) =>
+    const handlePointerMove = (e: PointerEvent) => {
       this.handleMove(
         startEvent.clientX - e.clientX,
         startEvent.clientY - e.clientY,
         state
       )
+    }
 
     startEvent.preventDefault()
     this.setPointerCapture(startEvent.pointerId)
@@ -183,12 +236,12 @@ export class AfixRangeSlider extends HTMLElement {
       case 'ArrowLeft':
       case 'ArrowDown':
       case 'PageDown':
-        this.value = String(minmax(+this.value - delta, +this.min, +this.max))
+        this.value = String(minmax(+this.value - delta, +this.min, +this.max, +this.step))
         break
       case 'ArrowRight':
       case 'ArrowUp':
       case 'PageUp':
-        this.value = String(minmax(+this.value + delta, +this.min, +this.max))
+        this.value = String(minmax(+this.value + delta, +this.min, +this.max, +this.step))
         break
       case 'Home':
         this.value = this.min
@@ -204,43 +257,61 @@ export class AfixRangeSlider extends HTMLElement {
     dy: number,
     { height, width, min, max, value }: State
   ) {
+    assert(
+      typeof dx === 'number' && typeof dy === 'number',
+      'handleMove was called without dx or dy!'
+    )
     const [length, delta] = height > width ? [height, dy] : [width, -dx]
 
     const newPixelPosition = (length / max) * value + delta
 
-    this.value = minmax((newPixelPosition / length) * max, min, max).toFixed(
-      getFractionDigits(this.step)
-    )
+    const newValue = minmax(
+      (newPixelPosition / length) * max,
+      min,
+      max
+    ).toFixed(+this.step)
+    this.value = newValue
 
-    this.inputEl.value = this.value
+    this.inputEl.value = newValue
 
     this.emitChangeEvent()
-    this.updateAccessibilityModel({ height, width, min, max, value })
   }
 
   // implements the slider role
   // https://www.w3.org/TR/wai-aria-1.1/#slider
-  private updateAccessibilityModel({ min, max, value, width, height }: State) {
+  private updateAccessibilityModel({
+    min,
+    max,
+    value,
+    vertical,
+  }: {
+    min?: string | number
+    max?: string | number
+    value?: string | number
+    vertical?: string | null
+  }) {
     if (!this.hasAttribute('role')) {
       this.setAttribute('role', 'slider')
     }
 
-    if (typeof min === 'number') {
+    if (typeof min !== 'undefined') {
       this.setAttribute('aria-valuemin', String(min))
     }
 
-    if (typeof max === 'number') {
+    if (typeof max !== 'undefined') {
       this.setAttribute('aria-valuemax', String(max))
     }
 
-    if (typeof value === 'number') {
+    if (typeof value !== 'undefined') {
       this.setAttribute('aria-valuenow', String(value))
     }
 
-    this.setAttribute(
-      'aria-orientation',
-      width > height ? 'horizontal' : 'vertical'
-    )
+    if (typeof vertical !== 'undefined') {
+      this.setAttribute(
+        'aria-orientation',
+        vertical === '' ? 'vertical' : 'horizontal'
+      )
+    }
   }
 }
 
