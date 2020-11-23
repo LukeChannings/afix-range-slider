@@ -71,8 +71,8 @@ export class AfixRangeSlider extends HTMLElement {
     this.addEventListener('keydown', this.handleKeyboard)
   }
 
-  get value() {
-    return this.getAttribute('value')!
+  get value(): string {
+    return this.getAttribute('value') ?? '0'
   }
 
   set value(newValue: string) {
@@ -84,42 +84,47 @@ export class AfixRangeSlider extends HTMLElement {
     this.style.setProperty('--value', finalValue + '%')
   }
 
-  get step() {
-    return this.getAttribute('step')!
+  get step(): string {
+    return this.getAttribute('step') ?? '1'
   }
 
   set step(newStep: string) {
     this.setAttribute('step', newStep)
   }
 
-  get min() {
-    return this.getAttribute('min')!
+  get min(): string {
+    return this.getAttribute('min') ?? '0'
   }
 
   set min(newMin: string) {
     this.setAttribute('min', newMin)
   }
 
-  get max() {
-    return this.getAttribute('max')!
+  get max(): string {
+    return this.getAttribute('max') ?? '100'
   }
 
   set max(newMax: string) {
     this.setAttribute('max', newMax)
   }
 
-  get comparisonValue() {
-    return this.getAttribute('comparison-value')!
+  get comparisonValue(): string | null {
+    return this.getAttribute('comparison-value')
   }
 
-  set comparisonValue(newComparisonValue: string) {
+  set comparisonValue(newComparisonValue: string | null) {
+    if (newComparisonValue === null) {
+      this.removeAttribute('comparison-value')
+      return
+    }
+
     this.setAttribute(
       'comparison-value',
       String(minmax(+this.max, +this.min, +newComparisonValue))
     )
   }
 
-  get vertical() {
+  get vertical(): boolean {
     return this.hasAttribute('vertical')
   }
 
@@ -131,7 +136,7 @@ export class AfixRangeSlider extends HTMLElement {
     }
   }
 
-  attributeChangedCallback(name: string, _: string, newValue: string) {
+  attributeChangedCallback(name: string, _: string, newValue: string): void {
     if (
       name === 'value' &&
       (+newValue < +this.min ||

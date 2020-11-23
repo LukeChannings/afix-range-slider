@@ -1,11 +1,14 @@
 import { ElementHandle } from 'playwright'
 import { allBrowsersRenderTheSame, setup } from '.'
+import { assert } from '../src/Component.utils'
 
 const replayPointerEvents = async (
   handle: ElementHandle<HTMLElement>,
   events: number[][]
 ) => {
-  const { x, y } = (await handle.boundingBox())!
+  const boundingBox = await handle.boundingBox()
+  assert(!!boundingBox)
+  const { x, y } = boundingBox
   const startEvent = events[0]
   const moveEvents = events.slice(1)
 

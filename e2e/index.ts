@@ -8,7 +8,9 @@ page.on('console', msg => {
   console.log(msg.text())
 })
 
-export const setup = async (attributes: Record<string, string> = {}) => {
+export const setup = async (
+  attributes: Record<string, string> = {}
+): Promise<ElementHandle<HTMLElement>> => {
   await page.goto(__TEST_SERVER__)
 
   await page.$eval(
@@ -21,7 +23,7 @@ export const setup = async (attributes: Record<string, string> = {}) => {
       .join(' ')
   )
 
-  const slider = await page.$('afix-range-slider')!
+  const slider = await page.$('afix-range-slider')
   if (!slider) {
     throw new Error("couldn't select afix-range-slider!")
   }
@@ -55,7 +57,7 @@ export const wheelEvent = async (
   x = 0,
   y = 0,
   z = 0
-) => {
+): Promise<void> => {
   await handle.evaluate(
     (_, [x, y, z]) =>
       _.dispatchEvent(
