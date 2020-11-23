@@ -30,6 +30,6 @@ export const minmax = (n: number, min = 0, max = 100, step?: number) => {
 // roundToStep - rounds a number to a given stepping value
 // e.g. roundToStep(0.3, 0.5) -> 0.5; (4, 10) -> 1 ; (60, 100) -> 100
 export const roundToStep = (n: number, step: number = 1.0) => {
-  const inv = 1.0 / step;
-  return Math.round(n * inv) / inv;
+  const inv = 1.0 / step
+  return Math.round(n * inv) / inv
 }

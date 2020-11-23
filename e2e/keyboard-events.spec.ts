@@ -1,4 +1,4 @@
-import { setup } from "."
+import { setup } from '.'
 
 describe('keyboard events', () => {
   describe('incrementing', () => {
@@ -7,9 +7,7 @@ describe('keyboard events', () => {
         let slider = await setup({ value: '50' })
         await slider.focus()
         await page.keyboard.press(event)
-        expect(await (await slider.getProperty('value')).jsonValue()).toBe(
-          '51'
-        )
+        expect(await (await slider.getProperty('value')).jsonValue()).toBe('51')
       })
 
       test(`${event} increments value by .1 (step 0.1)`, async () => {
@@ -30,9 +28,7 @@ describe('keyboard events', () => {
         const slider = await setup({ value: '50' })
         await slider.focus()
         await page.keyboard.press(`Shift+${event}`)
-        expect(await (await slider.getProperty('value')).jsonValue()).toBe(
-          '60'
-        )
+        expect(await (await slider.getProperty('value')).jsonValue()).toBe('60')
       })
 
       test(`Shift+${event} increments value by 1 (step 0.1)`, async () => {
@@ -44,9 +40,7 @@ describe('keyboard events', () => {
         })
         await slider.focus()
         await page.keyboard.press(`Shift+${event}`)
-        expect(await (await slider.getProperty('value')).jsonValue()).toBe(
-          '1'
-        )
+        expect(await (await slider.getProperty('value')).jsonValue()).toBe('1')
       })
     })
 
@@ -76,9 +70,7 @@ describe('keyboard events', () => {
         let slider = await setup({ value: '50' })
         await slider.focus()
         await page.keyboard.press(event)
-        expect(await (await slider.getProperty('value')).jsonValue()).toBe(
-          '49'
-        )
+        expect(await (await slider.getProperty('value')).jsonValue()).toBe('49')
       })
 
       test(`${event} decrements value by .1 (step 0.1)`, async () => {
@@ -99,9 +91,7 @@ describe('keyboard events', () => {
         const slider = await setup({ value: '50' })
         await slider.focus()
         await page.keyboard.press(`Shift+${event}`)
-        expect(await (await slider.getProperty('value')).jsonValue()).toBe(
-          '40'
-        )
+        expect(await (await slider.getProperty('value')).jsonValue()).toBe('40')
       })
 
       test(`Shift+${event} decrements value by 1 (step 0.1)`, async () => {
@@ -113,9 +103,7 @@ describe('keyboard events', () => {
         })
         await slider.focus()
         await page.keyboard.press(`Shift+${event}`)
-        expect(await (await slider.getProperty('value')).jsonValue()).toBe(
-          '0'
-        )
+        expect(await (await slider.getProperty('value')).jsonValue()).toBe('0')
       })
     })
 

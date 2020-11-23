@@ -30,7 +30,7 @@ export const template = html`
         height: 12rem;
         cursor: ns-resize;
       }
-    
+
       :host(:not([vertical])) {
         cursor: ew-resize;
         width: 12rem;

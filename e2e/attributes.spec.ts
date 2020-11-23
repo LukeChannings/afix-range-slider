@@ -2,8 +2,8 @@
  * This spec tests all documented attributes for <afix-range-slider /> work as expected
  */
 
-import { setup, allBrowsersRenderTheSame } from "."
-import AfixRangeSlider from "../src/Component"
+import { setup, allBrowsersRenderTheSame } from '.'
+import AfixRangeSlider from '../src/Component'
 
 describe('attributes', () => {
   describe('max', () => {
@@ -17,9 +17,9 @@ describe('attributes', () => {
       expect(await (await slider.getProperty('max')).jsonValue()).toBe('200')
     })
 
-    it("property is the same as attribute", async () => {
+    it('property is the same as attribute', async () => {
       const slider = await setup()
-      await slider.evaluate((_: AfixRangeSlider) => _.max = '20')
+      await slider.evaluate((_: AfixRangeSlider) => (_.max = '20'))
       expect(await (await slider.getProperty('max')).jsonValue()).toBe('20')
       expect(await slider.getAttribute('max')).toBe('20')
     })
@@ -35,7 +35,7 @@ describe('attributes', () => {
       const slider = await setup({ max: '200' })
       expect(await slider.getAttribute('aria-valuemax')).toBe('200')
 
-      await slider.evaluate((_: AfixRangeSlider) => _.max = '150')
+      await slider.evaluate((_: AfixRangeSlider) => (_.max = '150'))
       expect(await slider.getAttribute('aria-valuemax')).toBe('150')
     })
   })
@@ -51,9 +51,9 @@ describe('attributes', () => {
       expect(await (await slider.getProperty('min')).jsonValue()).toBe('60')
     })
 
-    it("property is the same as attribute", async () => {
+    it('property is the same as attribute', async () => {
       const slider = await setup()
-      await slider.evaluate((_: AfixRangeSlider) => _.min = '20')
+      await slider.evaluate((_: AfixRangeSlider) => (_.min = '20'))
       expect(await (await slider.getProperty('min')).jsonValue()).toBe('20')
       expect(await slider.getAttribute('min')).toBe('20')
     })
@@ -69,7 +69,7 @@ describe('attributes', () => {
       const slider = await setup({ min: '20' })
       expect(await slider.getAttribute('aria-valuemin')).toBe('20')
 
-      await slider.evaluate((_: AfixRangeSlider) => _.min = '50')
+      await slider.evaluate((_: AfixRangeSlider) => (_.min = '50'))
       expect(await slider.getAttribute('aria-valuemin')).toBe('50')
     })
   })
@@ -79,7 +79,9 @@ describe('attributes', () => {
       let slider = await setup()
       expect(await (await slider.getProperty('value')).jsonValue()).toBe('50')
 
-      expect(await slider.screenshot()).toMatchImageSnapshot(allBrowsersRenderTheSame)
+      expect(await slider.screenshot()).toMatchImageSnapshot(
+        allBrowsersRenderTheSame
+      )
 
       slider = await setup({ max: '200' })
       expect(await (await slider.getProperty('value')).jsonValue()).toBe('100')
@@ -89,12 +91,16 @@ describe('attributes', () => {
       let slider = await setup({ value: '80' })
       expect(await (await slider.getProperty('value')).jsonValue()).toBe('80')
 
-      expect(await slider.screenshot()).toMatchImageSnapshot(allBrowsersRenderTheSame)
+      expect(await slider.screenshot()).toMatchImageSnapshot(
+        allBrowsersRenderTheSame
+      )
 
-      await slider.evaluate((_: AfixRangeSlider) => _.value = '70')
+      await slider.evaluate((_: AfixRangeSlider) => (_.value = '70'))
       expect(await (await slider.getProperty('value')).jsonValue()).toBe('70')
 
-      expect(await slider.screenshot()).toMatchImageSnapshot(allBrowsersRenderTheSame)
+      expect(await slider.screenshot()).toMatchImageSnapshot(
+        allBrowsersRenderTheSame
+      )
     })
 
     it('cannot be lower than min (via property)', async () => {
@@ -104,7 +110,9 @@ describe('attributes', () => {
 
     it('cannot be lower than min (via attribute)', async () => {
       const slider = await setup({ value: '0', min: '25' })
-      await slider.evaluate((_: AfixRangeSlider) => _.setAttribute('value', '0'))
+      await slider.evaluate((_: AfixRangeSlider) =>
+        _.setAttribute('value', '0')
+      )
       expect(await (await slider.getProperty('value')).jsonValue()).toBe('25')
     })
     it('cannot be higher than max (via property)', async () => {
@@ -114,7 +122,9 @@ describe('attributes', () => {
 
     it('cannot be lower than max (via attribute)', async () => {
       const slider = await setup({ max: '50' })
-      await slider.evaluate((_: AfixRangeSlider) => _.setAttribute('value', '100'))
+      await slider.evaluate((_: AfixRangeSlider) =>
+        _.setAttribute('value', '100')
+      )
       expect(await (await slider.getProperty('value')).jsonValue()).toBe('50')
     })
 
@@ -122,7 +132,7 @@ describe('attributes', () => {
       let slider = await setup({ value: '44' })
       expect(await slider.getAttribute('aria-valuenow')).toBe('44')
 
-      await slider.evaluate((_: AfixRangeSlider) => _.value = '50')
+      await slider.evaluate((_: AfixRangeSlider) => (_.value = '50'))
 
       expect(await slider.getAttribute('aria-valuenow')).toBe('50')
     })
@@ -137,65 +147,88 @@ describe('attributes', () => {
     it('rounds to the step value when set (via property)', async () => {
       let slider = await setup({ step: '0.5', value: '11' })
 
-      await slider.evaluate((_: AfixRangeSlider) => _.value = '11.1')
+      await slider.evaluate((_: AfixRangeSlider) => (_.value = '11.1'))
       expect(await (await slider.getProperty('value')).jsonValue()).toBe('11')
     })
 
     it('rounds to the step value when set (via attribute)', async () => {
       let slider = await setup({ step: '0.5' })
 
-      await slider.evaluate((_: AfixRangeSlider) => _.setAttribute('value', '11.1'))
+      await slider.evaluate((_: AfixRangeSlider) =>
+        _.setAttribute('value', '11.1')
+      )
       expect(await (await slider.getProperty('value')).jsonValue()).toBe('11')
     })
 
     it('supports fractional steps (0.1)', async () => {
-      let slider = await setup({ step: '0.1', min: '0', max: '1', value: '0.5' })
+      let slider = await setup({
+        step: '0.1',
+        min: '0',
+        max: '1',
+        value: '0.5',
+      })
 
       expect(await (await slider.getProperty('value')).jsonValue()).toBe('0.5')
     })
 
     it('supports fractional steps (0.01)', async () => {
-      let slider = await setup({ step: '0.01', min: '0', max: '1', value: '0.5' })
+      let slider = await setup({
+        step: '0.01',
+        min: '0',
+        max: '1',
+        value: '0.5',
+      })
 
       expect(await (await slider.getProperty('value')).jsonValue()).toBe('0.5')
     })
   })
 
   describe('comparison-value', () => {
-
     it('defaults to null', async () => {
       let slider = await setup()
-      expect(await (await slider.getProperty('comparisonValue')).jsonValue()).toBeNull()
+      expect(
+        await (await slider.getProperty('comparisonValue')).jsonValue()
+      ).toBeNull()
       expect(await slider.getAttribute('comparison-value')).toBeNull()
     })
 
     it('is not bounded by step', async () => {
       let slider = await setup({ step: '1', 'comparison-value': '1.5' })
-      expect(await (await slider.getProperty('comparisonValue')).jsonValue()).toBe('1.5')
+      expect(
+        await (await slider.getProperty('comparisonValue')).jsonValue()
+      ).toBe('1.5')
     })
 
     it('cannot be lower than min', async () => {
       let slider = await setup({ min: '10' })
-      await slider.evaluate((_: AfixRangeSlider) => _.comparisonValue = '1')
-      expect(await (await slider.getProperty('comparisonValue')).jsonValue()).toBe('10')
+      await slider.evaluate((_: AfixRangeSlider) => (_.comparisonValue = '1'))
+      expect(
+        await (await slider.getProperty('comparisonValue')).jsonValue()
+      ).toBe('10')
     })
 
     it('cannot be lower than max', async () => {
       let slider = await setup({ max: '90' })
-      await slider.evaluate((_: AfixRangeSlider) => _.comparisonValue = '100')
-      expect(await (await slider.getProperty('comparisonValue')).jsonValue()).toBe('90')
+      await slider.evaluate((_: AfixRangeSlider) => (_.comparisonValue = '100'))
+      expect(
+        await (await slider.getProperty('comparisonValue')).jsonValue()
+      ).toBe('90')
     })
   })
 
   describe('vertical', () => {
     it('defaults to false (horizontal by default)', async () => {
       let slider = await setup()
-      expect(await (await slider.getProperty('vertical')).jsonValue()).toBeFalsy()
+      expect(
+        await (await slider.getProperty('vertical')).jsonValue()
+      ).toBeFalsy()
     })
-    
+
     it('renders horizontal by default', async () => {
       let slider = await setup({ value: '25' })
-      expect(await slider.screenshot()).toMatchImageSnapshot(allBrowsersRenderTheSame)
+      expect(await slider.screenshot()).toMatchImageSnapshot(
+        allBrowsersRenderTheSame
+      )
     })
 
     it('sets aria-orientation to horizontal by default', async () => {
@@ -205,7 +238,9 @@ describe('attributes', () => {
 
     it('renders vertical when set', async () => {
       let slider = await setup({ value: '25', vertical: '' })
-      expect(await slider.screenshot()).toMatchImageSnapshot(allBrowsersRenderTheSame)
+      expect(await slider.screenshot()).toMatchImageSnapshot(
+        allBrowsersRenderTheSame
+      )
     })
 
     it('sets aria-orientation to vertical when set', async () => {
@@ -217,23 +252,34 @@ describe('attributes', () => {
   describe('line-style', () => {
     it('renders a bar by default', async () => {
       let slider = await setup({ style: 'color: purple' })
-      expect(await slider.screenshot()).toMatchImageSnapshot(allBrowsersRenderTheSame)
+      expect(await slider.screenshot()).toMatchImageSnapshot(
+        allBrowsersRenderTheSame
+      )
     })
 
     it('renders a bar by default (vertical)', async () => {
       let slider = await setup({ style: 'color: purple', vertical: '' })
-      expect(await slider.screenshot()).toMatchImageSnapshot(allBrowsersRenderTheSame)
+      expect(await slider.screenshot()).toMatchImageSnapshot(
+        allBrowsersRenderTheSame
+      )
     })
 
     it('renders a line instead of a bar when line-style is set', async () => {
       let slider = await setup({ 'line-style': '', style: 'color: purple' })
-      expect(await slider.screenshot()).toMatchImageSnapshot(allBrowsersRenderTheSame)
-
+      expect(await slider.screenshot()).toMatchImageSnapshot(
+        allBrowsersRenderTheSame
+      )
     })
-    
+
     it('renders a line instead of a bar when line-style is set (vertical)', async () => {
-      let slider = await setup({ 'line-style': '', vertical: '', style: 'color: purple' })
-      expect(await slider.screenshot()).toMatchImageSnapshot(allBrowsersRenderTheSame)
+      let slider = await setup({
+        'line-style': '',
+        vertical: '',
+        style: 'color: purple',
+      })
+      expect(await slider.screenshot()).toMatchImageSnapshot(
+        allBrowsersRenderTheSame
+      )
     })
   })
 

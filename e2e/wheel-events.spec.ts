@@ -137,5 +137,4 @@ describe('mouse interaction', () => {
       allBrowsersRenderTheSame
     )
   })
-
 })

@@ -48,9 +48,9 @@ describe('util', () => {
   })
 
   test('roundToStep', () => {
-    expect(roundToStep(0.3, 0.5)).toEqual(0.5);
-    expect(roundToStep(4, 10)).toEqual(0);
-    expect(roundToStep(60, 100)).toEqual(100);
+    expect(roundToStep(0.3, 0.5)).toEqual(0.5)
+    expect(roundToStep(4, 10)).toEqual(0)
+    expect(roundToStep(60, 100)).toEqual(100)
     expect(roundToStep(0.5, 0.1)).toEqual(0.5)
     expect(roundToStep(0.5, 0.01)).toEqual(0.5)
   })

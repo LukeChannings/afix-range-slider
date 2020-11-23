@@ -7,5 +7,5 @@ module.exports = {
   globals: {
     __TEST_SERVER__: 'http://localhost:4321',
   },
-  setupFilesAfterEnv: ['<rootDir>/config/jest-playwright-setup.js']
+  setupFilesAfterEnv: ['<rootDir>/config/jest-playwright-setup.js'],
 }

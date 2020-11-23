@@ -56,15 +56,17 @@ export const wheelEvent = async (
   y = 0,
   z = 0
 ) => {
-  await handle.evaluate((_, [x, y, z]) =>
-    _.dispatchEvent(
-      new WheelEvent('wheel', {
-        deltaMode: 0,
-        deltaX: x,
-        deltaY: y,
-        deltaZ: z,
-      })
-    ), [x, y, z]
+  await handle.evaluate(
+    (_, [x, y, z]) =>
+      _.dispatchEvent(
+        new WheelEvent('wheel', {
+          deltaMode: 0,
+          deltaX: x,
+          deltaY: y,
+          deltaZ: z,
+        })
+      ),
+    [x, y, z]
   )
 
   await new Promise(res => setTimeout(res, 100))

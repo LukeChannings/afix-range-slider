@@ -6,6 +6,6 @@ module.exports = {
   // },
   serverOptions: {
     command: 'npm start',
-    port: 4321
+    port: 4321,
   },
 }

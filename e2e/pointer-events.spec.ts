@@ -407,7 +407,7 @@ describe('pointer events', () => {
     ])
 
     expect(await slider.getAttribute('value')).toBe('21')
-  
+
     expect(await slider.screenshot()).toMatchImageSnapshot(
       allBrowsersRenderTheSame
     )

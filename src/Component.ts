@@ -136,8 +136,7 @@ export class AfixRangeSlider extends HTMLElement {
       name === 'value' &&
       (+newValue < +this.min ||
         +newValue > +this.max ||
-        (
-          roundToStep(+newValue, +this.step) !== +this.value))
+        roundToStep(+newValue, +this.step) !== +this.value)
     ) {
       this.value = newValue
     }
@@ -236,12 +235,16 @@ export class AfixRangeSlider extends HTMLElement {
       case 'ArrowLeft':
       case 'ArrowDown':
       case 'PageDown':
-        this.value = String(minmax(+this.value - delta, +this.min, +this.max, +this.step))
+        this.value = String(
+          minmax(+this.value - delta, +this.min, +this.max, +this.step)
+        )
         break
       case 'ArrowRight':
       case 'ArrowUp':
       case 'PageUp':
-        this.value = String(minmax(+this.value + delta, +this.min, +this.max, +this.step))
+        this.value = String(
+          minmax(+this.value + delta, +this.min, +this.max, +this.step)
+        )
         break
       case 'Home':
         this.value = this.min
