@@ -10,7 +10,8 @@ jobs:
       - name: Use Node.js
         uses: actions/setup-node@v1
         with:
-            node-version: '14.x'
+            node-version: '15.x'
+      - uses: microsoft/playwright-github-action@v1
       - name: Cache Node.js modules
         uses: actions/cache@v2
         with:
