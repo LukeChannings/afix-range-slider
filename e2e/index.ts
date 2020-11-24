@@ -4,6 +4,8 @@ import type { MatchImageSnapshotOptions } from 'jest-image-snapshot'
 import type { ElementHandle } from 'playwright'
 import { toCamelCase } from '../src/Component.utils'
 
+declare const __TEST_SERVER__: string
+
 page.on('console', msg => {
   console.log(msg.text())
 })
