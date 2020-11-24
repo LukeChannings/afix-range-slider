@@ -81,6 +81,7 @@ export class AfixRangeSlider extends HTMLElement {
     )
 
     this.setAttribute('value', finalValue)
+
     this.style.setProperty('--value', finalValue + '%')
   }
 
