@@ -1,56 +1,35 @@
 name: Tests
 
-on:
-  push:
-    branches: [ '*' ]
-  pull_request:
-    branches: [ '*' ]
+on: [push, pull_request]
 
 jobs:
-  e2e-tests:
+  build:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Set up Go 1.x
-        uses: actions/setup-go@v2
-        with:
-          go-version: ^1.15
-        id: go
-
-      - name: Get dependencies
-        run: |
-          echo $PATH
-          go get github.com/lukechannings/hammer/cmd/hammer
-          curl https://iterm2.com/utilities/imgcat -o ~/go/bin/imgcat
-          chmod +x ~/go/bin/imgcat
       - uses: actions/checkout@v2
-
-      - uses: actions/setup-node@v1
+      - name: Use Node.js
+        uses: actions/setup-node@v1
         with:
-          node-version: '15'
-
-      - uses: microsoft/playwright-github-action@v1
-
-      - name: Cache node modules
+            node-version: '14.x'
+      - name: Cache Node.js modules
         uses: actions/cache@v2
-        env:
-          cache-name: cache-node-modules
         with:
-          path: ~/.npm
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-build-${{ env.cache-name }}-
-            ${{ runner.os }}-build-
-            ${{ runner.os }}-
-
-      - name: Install dependencies
+            path: ~/.npm 
+            key: ${{ runner.OS }}-node-${{ hashFiles('**/package-lock.json') }}
+            restore-keys: |
+              ${{ runner.OS }}-node-
+              ${{ runner.OS }}-
+      - name: Install NPM dependencies
         run: npm ci
-      
+      - name: Install hammer
+        run: |
+          mkdir -p $GITHUB_WORKSPACE/bin
+          echo "::add-path::$GITHUB_WORKSPACE/bin"
+          curl https://github.com/LukeChannings/hammer/releases/download/v1.0.0-alpha.15/hammer-linux-amd64 -o $GITHUB_WORKSPACE/bin/hammer
+          chmod +x $GITHUB_WORKSPACE/bin/hammer
       - name: Linting
         run: npm run lint
-
       - name: Unit Tests
         run: npm run test:unit
-
       - name: End-to-end Tests
         run: npm run test:e2e
