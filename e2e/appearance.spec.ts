@@ -8,10 +8,6 @@ describe('appearance', () => {
 
     expect(boundingBox.width).toBe(200)
     expect(boundingBox.height).toBe(10)
-
-    expect(await slider.screenshot()).toMatchImageSnapshot(
-      allBrowsersRenderTheSame
-    )
   })
 
   test('color', async () => {
