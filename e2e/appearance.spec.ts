@@ -61,4 +61,17 @@ describe('appearance', () => {
       allBrowsersRenderTheSame
     )
   })
+
+  test('--ars-comparison-value-color', async () => {
+    const slider = await setup({
+      'line-style': '',
+      style: '--ars-comparison-value-color: green',
+      'comparison-value': '50',
+      value: '100',
+    })
+
+    expect(await slider.screenshot()).toMatchImageSnapshot(
+      allBrowsersRenderTheSame
+    )
+  })
 })

@@ -281,6 +281,52 @@ describe('attributes', () => {
         allBrowsersRenderTheSame
       )
     })
+
+    it('is visible when the value is 0 (horizontal)', async () => {
+      const slider = await setup({
+        'line-style': '',
+        value: '0',
+        style: 'color: red',
+      })
+      expect(await slider.screenshot()).toMatchImageSnapshot(
+        allBrowsersRenderTheSame
+      )
+    })
+
+    it('is visible when the value is 0 (vertical)', async () => {
+      const slider = await setup({
+        'line-style': '',
+        vertical: '',
+        style: 'color: red',
+        value: '0',
+      })
+      expect(await slider.screenshot()).toMatchImageSnapshot(
+        allBrowsersRenderTheSame
+      )
+    })
+
+    it('is visible when the value is 100 (horizontal)', async () => {
+      const slider = await setup({
+        'line-style': '',
+        value: '100',
+        style: 'color: red',
+      })
+      expect(await slider.screenshot()).toMatchImageSnapshot(
+        allBrowsersRenderTheSame
+      )
+    })
+
+    it('is visible when the value is 100 (vertical)', async () => {
+      const slider = await setup({
+        'line-style': '',
+        vertical: '',
+        style: 'color: red',
+        value: '100',
+      })
+      expect(await slider.screenshot()).toMatchImageSnapshot(
+        allBrowsersRenderTheSame
+      )
+    })
   })
 
   describe('role', () => {

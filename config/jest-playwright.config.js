@@ -5,7 +5,7 @@ module.exports = {
   //   headless: false,
   // },
   serverOptions: {
-    command: 'npm start',
-    port: 4321,
+    command: 'npm start -- -p 4322',
+    port: 4322,
   },
 }

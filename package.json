@@ -1,20 +1,23 @@
 {
   "name": "afix-range-slider",
-  "version": "1.3.7",
+  "version": "2.0.0",
   "description": "An accessible and flexible range slider web component",
-  "main": "src/Component.js",
-  "module": "src/Component.js",
+  "main": "dist/Component.js",
+  "module": "dist/Component.js",
   "scripts": {
-    "start": "hammer serve -p 4321 src e2e",
+    "start": "hammer serve src e2e",
     "test": "run-p test:*",
     "test:unit": "jest -c config/jest.js",
     "test:e2e": "jest -c config/jest-playwright.js",
     "lint": "run-p lint:*",
-    "lint:js": "eslint . --ext .js,.ts",
+    "lint:js": "eslint . --ext .js,.ts --ignore-path .gitignore",
     "lint:css": "stylelint --syntax html '**/*.ts'",
-    "lint:ts": "tsc",
+    "lint:ts": "tsc --noEmit",
     "lint:style": "prettier --ignore-path .gitignore  '**/*.{js,ts,css,json,html,yaml}' --check",
-    "format": "prettier --ignore-path .gitignore  '**/*.{js,ts,css,json,html,yaml}' --write"
+    "format": "prettier --ignore-path .gitignore  '**/*.{js,ts,css,json,html,yaml}' --write",
+    "build": "run-p build:*",
+    "build:types": "tsc --emitDeclarationOnly && mv dist/types/src/Component.d.ts dist/afix-range-slider.d.ts && rm -rf dist/types",
+    "build:output": "hammer bundle --minify src/Component.ts dist/afix-range-slider.js"
   },
   "keywords": [
     "Afix",

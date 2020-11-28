@@ -69,7 +69,6 @@ export const template = html`
         width: 100%;
         height: 100%;
         position: relative;
-        overflow: hidden;
       }
 
       .track {
@@ -87,7 +86,7 @@ export const template = html`
       }
 
       .track[part='comparison-value'] {
-        background-color: var(--a-range-slider-comparison-value-color, #fd892e);
+        background-color: var(--ars-comparison-value-color, #fd892e);
       }
 
       :host(:not([comparison-value])) .track[part='comparison-value'] {
@@ -114,6 +113,10 @@ export const template = html`
         background-color: var(--afix-range-slider-value-color, currentColor);
       }
 
+      :host([line-style]) .track[part='value'] {
+        height: calc(100% - 2px);
+      }
+
       :host([line-style]) .track[part='value']::after {
         position: absolute;
         content: '';
@@ -122,15 +125,20 @@ export const template = html`
       }
 
       :host([vertical][line-style]) .track[part='value']::after {
-        top: -1px;
+        top: 0;
         left: 0;
         width: 100%;
         height: 2px;
       }
 
+      :host(:not([vertical])[line-style]) .track[part='value'] {
+        width: calc(100% - 2px);
+        height: 100%;
+      }
+
       :host(:not([vertical])[line-style]) .track[part='value']::after {
         top: 0;
-        right: -1px;
+        right: -2px;
         height: 100%;
         width: 2px;
       }

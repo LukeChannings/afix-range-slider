@@ -41,11 +41,15 @@ export class AfixRangeSlider extends HTMLElement {
     this.step = this.getAttribute('step') ?? '1'
     this.value = this.getAttribute('value') ?? String(+max / 2)
 
+    if (this.hasAttribute('comparison-value')) {
+      this.comparisonValue = this.getAttribute('comparison-value')
+    }
+
     this.attachShadow({ mode: 'open' }).appendChild(
       template.content.cloneNode(true)
     )
 
-    this.inputEl = this.configureInput(this.shadowRoot.querySelector('input'))
+    this.inputEl = this.configureInput(this.shadowRoot.querySelector('input')!)
 
     this.inputSlotEl = this.shadowRoot.querySelector('slot[name=input]')
     this.inputSlotEl?.addEventListener('slotchange', () => {
@@ -119,10 +123,10 @@ export class AfixRangeSlider extends HTMLElement {
       return
     }
 
-    this.setAttribute(
-      'comparison-value',
-      String(minmax(+this.max, +this.min, +newComparisonValue))
-    )
+    const newValue = String(minmax(+this.max, +this.min, +newComparisonValue))
+
+    this.setAttribute('comparison-value', newValue)
+    this.style.setProperty('--comparison-value', newValue + '%')
   }
 
   get vertical(): boolean {
@@ -156,7 +160,7 @@ export class AfixRangeSlider extends HTMLElement {
    * we need to re-configure the input when we get a slotchange event.
    */
   private configureInput(
-    newInput: Element | null,
+    newInput: Element,
     oldInput?: HTMLInputElement
   ): HTMLInputElement {
     assert(newInput instanceof HTMLInputElement)
