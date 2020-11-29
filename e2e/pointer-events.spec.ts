@@ -418,7 +418,12 @@ describe('pointer events', () => {
   })
 
   test('pixel position is 1:1 with value', async () => {
-    const slider = await setup({ value: '0', min: '0', max: '100', step: '0.01' })
+    const slider = await setup({
+      value: '0',
+      min: '0',
+      max: '100',
+      step: '0.01',
+    })
     const boundingBox = await slider.boundingBox()
     assert(!!boundingBox)
     const { x, y, width } = boundingBox
@@ -426,7 +431,7 @@ describe('pointer events', () => {
     await page.mouse.move(x, 1 + y)
     await page.mouse.down()
 
-    page.mouse.move(x + (width / 2), 1 + y)
+    page.mouse.move(x + width / 2, 1 + y)
     await page.mouse.up()
 
     expect(await slider.getAttribute('value')).toBe('50')
@@ -434,17 +439,21 @@ describe('pointer events', () => {
 
   // we're ignoring Webkit here because a right-click causes the browser to lose focus
   // and then can't callback to Playwright and the test hangs.
-  test.jestPlaywrightSkip({ browsers: ['webkit'] }, 'right-click is ignored', async () => {
-    const slider = await setup({ value: '0', step: '0.1' })
-    const boundingBox = await slider.boundingBox()
-    assert(!!boundingBox)
-    const { x, y, width } = boundingBox
+  test.jestPlaywrightSkip(
+    { browsers: ['webkit'] },
+    'right-click is ignored',
+    async () => {
+      const slider = await setup({ value: '0', step: '0.1' })
+      const boundingBox = await slider.boundingBox()
+      assert(!!boundingBox)
+      const { x, y, width } = boundingBox
 
-    await page.click('afix-range-slider', { button: 'right' })
+      await page.click('afix-range-slider', { button: 'right' })
 
-    await page.mouse.move(x + width, y)
-    await page.mouse.up()
+      await page.mouse.move(x + width, y)
+      await page.mouse.up()
 
-    expect(await slider.getAttribute('value')).toBe('0')
-  })
+      expect(await slider.getAttribute('value')).toBe('0')
+    }
+  )
 })

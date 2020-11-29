@@ -214,8 +214,8 @@ export class AfixRangeSlider extends HTMLElement {
   private handlePointer(startEvent: PointerEvent) {
     // Ignore alternate mouse buttons
     if (startEvent.pointerType === 'mouse' && startEvent.button !== 0) {
-      startEvent.preventDefault();
-      return;
+      startEvent.preventDefault()
+      return
     }
 
     const state = this.getState()
