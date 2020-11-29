@@ -4,7 +4,8 @@ import { assert } from '../src/Component.utils'
 
 const replayPointerEvents = async (
   handle: ElementHandle<HTMLElement>,
-  events: number[][]
+  events: number[][],
+  options?: { button?: 'left' | 'middle' | 'right'; clickCount?: number }
 ) => {
   const boundingBox = await handle.boundingBox()
   assert(!!boundingBox)
@@ -13,7 +14,7 @@ const replayPointerEvents = async (
   const moveEvents = events.slice(1)
 
   await page.mouse.move(startEvent[0] + x, startEvent[1] + y)
-  await page.mouse.down()
+  await page.mouse.down(options)
 
   await Promise.all(
     moveEvents.map(([dx, dy]) => page.mouse.move(x + dx, y + dy))
@@ -414,5 +415,36 @@ describe('pointer events', () => {
     expect(await slider.screenshot()).toMatchImageSnapshot(
       allBrowsersRenderTheSame
     )
+  })
+
+  test('pixel position is 1:1 with value', async () => {
+    const slider = await setup({ value: '0', min: '0', max: '100', step: '0.01' })
+    const boundingBox = await slider.boundingBox()
+    assert(!!boundingBox)
+    const { x, y, width } = boundingBox
+
+    await page.mouse.move(x, 1 + y)
+    await page.mouse.down()
+
+    page.mouse.move(x + (width / 2), 1 + y)
+    await page.mouse.up()
+
+    expect(await slider.getAttribute('value')).toBe('50')
+  })
+
+  // we're ignoring Webkit here because a right-click causes the browser to lose focus
+  // and then can't callback to Playwright and the test hangs.
+  test.jestPlaywrightSkip({ browsers: ['webkit'] }, 'right-click is ignored', async () => {
+    const slider = await setup({ value: '0', step: '0.1' })
+    const boundingBox = await slider.boundingBox()
+    assert(!!boundingBox)
+    const { x, y, width } = boundingBox
+
+    await page.click('afix-range-slider', { button: 'right' })
+
+    await page.mouse.move(x + width, y)
+    await page.mouse.up()
+
+    expect(await slider.getAttribute('value')).toBe('0')
   })
 })
