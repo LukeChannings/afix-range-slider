@@ -11,18 +11,22 @@ page.on('console', msg => {
 })
 
 export const setup = async (
-  attributes: Record<string, string> = {}
+  attributes: Record<string, string> = {},
+  children = ''
 ): Promise<ElementHandle<HTMLElement>> => {
   await page.goto(__TEST_SERVER__)
 
   await page.$eval(
     'body',
-    (bodyEl, attr) => {
-      bodyEl.innerHTML = `<afix-range-slider ${attr}></afix-range-slider>`
+    (bodyEl, [attr, children]) => {
+      bodyEl.innerHTML = `<afix-range-slider ${attr}>${children}</afix-range-slider>`
     },
-    Object.entries(attributes)
-      .map(([key, value]) => `${key}="${value}"`)
-      .join(' ')
+    [
+      Object.entries(attributes)
+        .map(([key, value]) => `${key}="${value}"`)
+        .join(' '),
+      children,
+    ]
   )
 
   const slider = await page.$('afix-range-slider')

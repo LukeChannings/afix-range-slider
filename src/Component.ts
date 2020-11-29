@@ -36,11 +36,6 @@ export class AfixRangeSlider extends HTMLElement {
   constructor() {
     super()
 
-    this.min = this.getAttribute('min') ?? '0'
-    const max = (this.max = this.getAttribute('max') ?? '100')
-    this.step = this.getAttribute('step') ?? '1'
-    this.value = this.getAttribute('value') ?? String(+max / 2)
-
     if (this.hasAttribute('comparison-value')) {
       this.comparisonValue = this.getAttribute('comparison-value')
     }
@@ -61,6 +56,11 @@ export class AfixRangeSlider extends HTMLElement {
     if (!this.hasAttribute('tabindex')) {
       this.tabIndex = 0
     }
+
+    this.min = this.getAttribute('min') ?? '0'
+    const max = (this.max = this.getAttribute('max') ?? '100')
+    this.step = this.getAttribute('step') ?? '1'
+    this.value = this.getAttribute('value') ?? String(+max / 2)
 
     this.updateAccessibilityModel({
       min: this.min,
@@ -86,6 +86,8 @@ export class AfixRangeSlider extends HTMLElement {
 
     this.setAttribute('value', finalValue)
 
+    this.inputEl.value = finalValue
+
     this.style.setProperty('--value', finalValue + '%')
   }
 
@@ -95,6 +97,7 @@ export class AfixRangeSlider extends HTMLElement {
 
   set step(newStep: string) {
     this.setAttribute('step', newStep)
+    this.inputEl.step = newStep
   }
 
   get min(): string {
@@ -103,6 +106,7 @@ export class AfixRangeSlider extends HTMLElement {
 
   set min(newMin: string) {
     this.setAttribute('min', newMin)
+    this.inputEl.min = newMin
   }
 
   get max(): string {
@@ -111,6 +115,7 @@ export class AfixRangeSlider extends HTMLElement {
 
   set max(newMax: string) {
     this.setAttribute('max', newMax)
+    this.inputEl.max = newMax
   }
 
   get comparisonValue(): string | null {
@@ -170,9 +175,16 @@ export class AfixRangeSlider extends HTMLElement {
       oldInput.remove()
     }
 
-    newInput.addEventListener('change', this.emitChangeEvent, {
-      passive: true,
-    })
+    newInput.addEventListener(
+      'change',
+      () => {
+        this.value = newInput.value
+        this.emitChangeEvent()
+      },
+      {
+        passive: true,
+      }
+    )
 
     if (this.value) newInput.value = this.value
     if (this.min) newInput.min = this.min

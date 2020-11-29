@@ -8,8 +8,21 @@ export const template = html`
       </slot>
       <div class="track" part="comparison-value"></div>
       <div class="track" part="value"></div>
+      <slot name="icon"></slot>
     </div>
     <style>
+      input,
+      ::slotted(input),
+      :host(input) {
+        clip: rect(1px, 1px, 1px, 1px);
+        clip-path: inset(50%);
+        height: 1px;
+        width: 1px;
+        margin: -1px;
+        overflow: hidden;
+        position: absolute;
+      }
+
       :host {
         display: inline-block;
         overflow: hidden;
@@ -141,16 +154,6 @@ export const template = html`
         right: -2px;
         height: 100%;
         width: 2px;
-      }
-
-      input {
-        clip: rect(1px, 1px, 1px, 1px);
-        clip-path: inset(50%);
-        height: 1px;
-        width: 1px;
-        margin: -1px;
-        overflow: hidden;
-        position: absolute;
       }
     </style>
   </template>
