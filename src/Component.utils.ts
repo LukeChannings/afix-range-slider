@@ -1,6 +1,3 @@
-import { toMatchImageSnapshot } from 'jest-image-snapshot'
-import AfixRangeSlider from './Component'
-
 // assert - a function to ensure sanity of variables and type safety
 export function assert(
   condition: boolean,
@@ -11,28 +8,9 @@ export function assert(
   }
 }
 
-// bindAttributes - ensures that the target's instance value and the attribute value are the same
-export const bindAttributes = (
-  target: HTMLElement,
-  names: string[],
-  defaults: Record<string, string> = {}
-) => {
-  for (const name of names) {
-    Object.defineProperty(target, toCamelCase(name), {
-      get() {
-        const value = target.getAttribute(name)
-        return value === null ? defaults[name] : value
-      },
-      set(value) {
-        target.setAttribute(name, value)
-      },
-    })
-  }
-}
-
 // toCamelCase - converts a string to lower camel case.
 // e.g. "kebab-case-string", "Just a regular string") to "camelCaseStrings
-export const toCamelCase = (value: string) =>
+export const toCamelCase = (value: string): string =>
   (
     value.charAt(0).toLowerCase() +
     value.slice(1).replace(/([ -][a-z0-9])/g, v => v[1].toUpperCase())
@@ -40,9 +18,23 @@ export const toCamelCase = (value: string) =>
 
 // getFractionDigits - returns the number of fraction digits based on the value
 // e.g. when n = "1", the digits are 0. When n = "1.33", the digits are 2.
-export const getFractionDigits = (n: string) =>
+export const getFractionDigits = (n: string): number =>
   (n || '1').replace('.', '').length - 1
 
 // minmax - bounds a number between a minimum and maxium value
-export const minmax = (n: number, min = 0, max = 100) =>
-  Math.max(min, Math.min(max, n))
+export const minmax = (
+  n: number,
+  min = 0,
+  max = 100,
+  step?: number
+): number => {
+  const boundedN = Math.max(min, Math.min(max, n))
+  return typeof step === 'undefined' ? boundedN : roundToStep(boundedN, step)
+}
+
+// roundToStep - rounds a number to a given stepping value
+// e.g. roundToStep(0.3, 0.5) -> 0.5; (4, 10) -> 1 ; (60, 100) -> 100
+export const roundToStep = (n: number, step = 1.0): number => {
+  const inv = 1.0 / step
+  return Math.round(n * inv) / inv
+}

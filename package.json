@@ -1,20 +1,23 @@
 {
   "name": "afix-range-slider",
-  "version": "1.3.7",
+  "version": "2.0.0",
   "description": "An accessible and flexible range slider web component",
-  "main": "src/Component.js",
-  "module": "src/Component.js",
+  "main": "dist/Component.js",
+  "module": "dist/Component.js",
   "scripts": {
-    "start": "hammer serve -p 4321 src e2e",
+    "start": "hammer serve src e2e",
     "test": "run-p test:*",
-    "test:unit": "jest",
-    "test:e2e": "env TEST_E2E=1 jest",
+    "test:unit": "jest -c config/jest.js",
+    "test:e2e": "jest -c config/jest-playwright.js",
     "lint": "run-p lint:*",
-    "lint:js": "eslint .",
+    "lint:js": "eslint . --ext .js,.ts --ignore-path .gitignore",
     "lint:css": "stylelint --syntax html '**/*.ts'",
-    "lint:ts": "tsc",
+    "lint:ts": "tsc --noEmit",
     "lint:style": "prettier --ignore-path .gitignore  '**/*.{js,ts,css,json,html,yaml}' --check",
-    "format": "prettier --ignore-path .gitignore  '**/*.{js,ts,css,json,html,yaml}' --write"
+    "format": "prettier --ignore-path .gitignore  '**/*.{js,ts,css,json,html,yaml}' --write",
+    "build": "run-p build:*",
+    "build:types": "tsc --emitDeclarationOnly && mv dist/types/src/Component.d.ts dist/afix-range-slider.d.ts && rm -rf dist/types",
+    "build:output": "hammer bundle --minify src/Component.ts dist/afix-range-slider.js"
   },
   "keywords": [
     "Afix",
@@ -29,12 +32,14 @@
     "@types/jest": "^26.0.15",
     "@types/jest-image-snapshot": "^4.1.3",
     "@types/resize-observer-browser": "^0.1.4",
+    "@typescript-eslint/eslint-plugin": "^4.8.2",
+    "@typescript-eslint/parser": "^4.8.2",
     "babel-jest": "^26.6.3",
-    "eslint": "^7.12.1",
     "eslint-config-prettier": "^6.15.0",
     "eslint-plugin-jest-playwright": "^0.2.1",
+    "husky": "^5.0.4",
     "jest": "^26.6.3",
-    "jest-image-snapshot": "git+https://github.com/LukeChannings/jest-image-snapshot.git",
+    "jest-image-snapshot": "github:LukeChannings/jest-image-snapshot",
     "jest-playwright-preset": "^1.4.0",
     "npm-run-all": "^4.1.5",
     "playwright": "^1.6.0-next.1604802196731",
@@ -44,7 +49,7 @@
     "stylelint-config-prettier": "^8.0.2",
     "stylelint-config-standard": "^20.0.0",
     "stylelint-no-unsupported-browser-features": "^4.1.4",
-    "typescript": "^4.0.5"
+    "typescript": "^4.1.2"
   },
   "eslintConfig": {
     "env": {
@@ -55,12 +60,21 @@
     },
     "extends": [
       "eslint:recommended",
+      "plugin:@typescript-eslint/recommended",
       "plugin:jest-playwright/recommended",
       "prettier"
     ],
+    "parser": "@typescript-eslint/parser",
     "parserOptions": {
       "ecmaVersion": 11,
       "sourceType": "module"
+    },
+    "plugins": [
+      "@typescript-eslint"
+    ],
+    "rules": {
+      "@typescript-eslint/no-extra-semi": 0,
+      "@typescript-eslint/no-non-null-assertion": 0
     }
   },
   "stylelint": {

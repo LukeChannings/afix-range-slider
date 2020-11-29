@@ -1,8 +1,8 @@
 import {
   assert,
-  bindAttributes,
   getFractionDigits,
   minmax,
+  roundToStep,
   toCamelCase,
 } from './Component.utils'
 
@@ -14,29 +14,6 @@ describe('util', () => {
 
     it('does not throw with true', () => {
       expect(() => assert(true)).not.toThrow()
-    })
-  })
-
-  describe('bindAttributes', () => {
-    it("binds an element's instance property to an attribute value", () => {
-      const element = document.createElement('div')
-      element.setAttribute('value', '123')
-      bindAttributes(element, ['value'])
-      expect('value' in element && element['value']).toBe('123')
-    })
-
-    it('sets an attribute value via an instance property', () => {
-      const element = document.createElement('input')
-      bindAttributes(element, ['value'])
-      element.value = '123'
-      expect('value' in element && element['value']).toBe('123')
-    })
-
-    it('defaults the value for an instance property', () => {
-      const element = document.createElement('input')
-      bindAttributes(element, ['value'], { value: '567' })
-      expect('value' in element && element['value']).toBe('567')
-      expect(element.getAttribute('value')).toBe(null)
     })
   })
 
@@ -68,5 +45,13 @@ describe('util', () => {
     expect(minmax(1.5, 0, 1)).toBe(1)
     expect(minmax(0.5, 0, 1)).toBe(0.5)
     expect(minmax(0)).toBe(0)
+  })
+
+  test('roundToStep', () => {
+    expect(roundToStep(0.3, 0.5)).toEqual(0.5)
+    expect(roundToStep(4, 10)).toEqual(0)
+    expect(roundToStep(60, 100)).toEqual(100)
+    expect(roundToStep(0.5, 0.1)).toEqual(0.5)
+    expect(roundToStep(0.5, 0.01)).toEqual(0.5)
   })
 })

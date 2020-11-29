@@ -4,15 +4,16 @@
     "module": "es2020",
     "allowJs": true,
     "checkJs": false,
-    "noEmit": true,
+    "outDir": "dist/types",
     "declaration": true,
     "strict": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
-    "moduleResolution": "Node",
+    "moduleResolution": "node",
     "allowSyntheticDefaultImports": true,
     "types": ["jest-playwright-preset", "expect-playwright", "@types/jest"]
   },
-  "exclude": ["coverage"]
+  "exclude": ["dist"],
+  "include": ["**/*.ts"]
 }
